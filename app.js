@@ -28,7 +28,7 @@ var app = express();
 app.configure(function(){
   app.set('port', process.env.PORT || 3000);
   app.set('views', __dirname + '/views');
-  app.set('view engine', 'ejs');
+  app.set('view engine', 'hjs');
   app.use(express.favicon());
   app.use(express.logger('dev'));
   app.use(express.bodyParser());
@@ -55,10 +55,11 @@ app.configure('development', function(){
 app.get('/', locals, routes.index);
 app.get('/users', user.list);
 app.get('/api/matches', api.matches);
-app.get('/api/profile/:name', api.profile);
+app.get('/api/profile/:username', api.profile);
 app.post('/match/create', controllers.createMatch);
 app.post('/login', controllers.login);
 app.get('/logout', controllers.logout);
+app.post('/register', controllers.register);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));

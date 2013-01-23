@@ -39,18 +39,18 @@ exports.matches = function(req, res){
 
 exports.profile = function(req, res){
   // Lowercase for querying
-  var name = req.params.name.toLowerCase();
+  var username = req.params.username.toLowerCase();
 
   // Query MongoDB for single match
-  db.Profile.findOne({ name: name }, function(err, user) {
+  db.User.findOne({ username: username }, function(err, user) {
       // Send message if not found
       if(!user) {
         res.send(name + " not found.");
       }
       else {
       // Construct json object
-      var json = { "name": user.name,
-                   "avatar": "http://placehold.it/350x350&text=" + name,
+      var json = { "name": user.username,
+                   "avatar": "http://placehold.it/350x350&text=" + username,
                    "karma": user.karma,
                    "id": user.id,
                    "games": [],

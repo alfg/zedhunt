@@ -28,22 +28,25 @@
         </a>
 
         <div id="profile-links" class="pull-right">
-            <% if (!session.username) { %>
-            <form class="form-inline" action="/login" method="POST">
+            {{^session.username}}
+            <div class="form-inline">
+            <form action="/login" method="POST">
               <input type="text" class="input-small" placeholder="Email" name="email">
               <input type="password" class="input-small" placeholder="Password" name="password">
               <button type="submit" class="btn btn-small btn-success">Login</button>
+              <button href="#register-modal" class="btn btn-small btn-primary" role="button" data-toggle="modal">Register</button>
             </form>
-            <% } %>
+            </div>
+            {{/session.username}}
             
-            <% if (session.username) { %>
+            {{#session.username}}
             <ul>
-                <li>Logged in as&nbsp;<strong><%= session.username %></strong>&nbsp;(<span class="text-info bold" title="Karma">10</span>)</li>
-                <li><a data-bind="css: { selected: selectedHeaderLink() == 'profile' }" href="#/profile/<%= session.username %>">Profile</a></li>
-                <li><a data-bind="css: { selected: selectedHeaderLink() == 'mygames' }" href="#/profile/alf/mygames">My Games</a></li>
+                <li>Logged in as&nbsp;<strong>{{session.username}}</strong>&nbsp;(<span class="text-info bold" title="Karma">10</span>)</li>
+                <li><a data-bind="css: { selected: selectedHeaderLink() == 'profile' }" href="#/profile/{{session.username}}">Profile</a></li>
+                <li><a data-bind="css: { selected: selectedHeaderLink() == 'mygames' }" href="#/profile/{{session.username}}/mygames">My Games</a></li>
                 <li><a href="/logout">Logout</a></li>
             </ul> 
-            <% } %>
+            {{/session.username}}
         </div>
     </header>
     
@@ -160,7 +163,7 @@
       <!-- Create Match Content -->
       <div id="create-match" data-bind="visible: selectedPage() == 'create' ">
           <div class="content">
-              <div id="create-match-form" data-bind="submit: createMatch">
+              <div id="create-match-form" data-bind="submit: createMatch.bind($data, '{{ session.username }}')">
                 <h4 class="title">Create a match</h4>
                 <form class="form-horizontal">
                   <div class="control-group">
@@ -285,6 +288,56 @@
             <li><a href="#">Privacy</a></li>
         </ul>
     </footer>
+
+    <!-- Register Modal -->
+    <div id="register-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="myModalLabel">Register</h3>
+      </div>
+      <div class="modal-body">
+        <div id="register-form" class="form-horizontal">
+          <div class="control-group">
+            <label class="control-label" for="RegisterUsername">Username</label>
+            <div class="controls">
+              <input type="text" id="RegisterUsername" placeholder="Username">
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label" for="RegisterEmail">Email (optional)</label>
+            <div class="controls">
+              <input type="text" id="RegisterEmail" placeholder="Email">
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label" for="RegisterPassword">Password</label>
+            <div class="controls">
+              <input type="password" id="RegisterPassword" placeholder="Password">
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label" for="RegisterPasswordConfirm">Confirm Password</label>
+            <div class="controls">
+              <input type="password" id="RegisterConfirmPassword" placeholder="Confirm Password">
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label" for="inputSteamID">Steam ID (optional)</label>
+            <div class="controls">
+              <input type="text" id="inputSteamID" placeholder="Steam ID">
+            </div>
+          </div>
+          <div class="control-group">
+            <div class="controls">
+              <button type="submit" class="btn btn-primary" data-bind="click: registerUser">Register</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+      </div>
+    </div>
 
     <script src="http://code.jquery.com/jquery-1.8.2.js"></script>
     <script src="js/bootstrap.min.js"></script>

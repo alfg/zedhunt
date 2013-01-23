@@ -30,9 +30,18 @@ exports.login = function(req, res){
 exports.logout = function(req, res){
   req.session = null;
   res.redirect('/');
-  /*
-  req.session.destroy(function(){
-    res.redirect('/');
-  });
-  */
+}
+
+exports.register = function(req, res){
+  var username = req.param('username');
+  var email = req.param('email');
+  var password = req.param('password');
+  var steamid = req.param('steamid');
+
+  var now = new Date();
+  var user = new db.User({ username: username, email: email, password: password, steamid: steamid });
+  user.save();
+  req.session.username = user.username;
+
+  res.send('created user');
 }

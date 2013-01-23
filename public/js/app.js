@@ -1,4 +1,6 @@
-
+/*
+ * All Knockout views, routes, logic.
+ */
 
 function HomeViewModel() {
     // Data
@@ -19,13 +21,13 @@ function HomeViewModel() {
         clip.setText("asdfasdfasd");
         alert("Copied to clipboard");
     };
-    self.createMatch = function(form) {
+    self.createMatch = function(name) {
         var platform = $('#input-platform a.btn.active').text();
         var type = $('#input-type a.btn.active').text();
         var game = $('#games-list').val();
         var title = $('#input-title').val();
         var desc = $('#input-description').val();
-        var creator = 'Alf'; //TODO Grab name from session
+        var creator = name; //TODO Grab name from session
 
         $.ajax({
             type: "POST",
@@ -38,10 +40,28 @@ function HomeViewModel() {
                     creator: creator }
         
             }).done(function (msg) {
-                alert("Submitted" + msg);
+                location.hash = '#/find';
             });
 
         //location.hash = '#/match/new';
+    };
+    self.registerUser = function(form) {
+        var username = $('#register-form #RegisterUsername').val();
+        var email = $('#register-form #RegisterEmail').val();
+        var password = $('#register-form #RegisterPassword').val();
+        var confirmPassword = $('#register-form #RegisterConfirmPassword').val();
+        var steamid = $('#register-form #RegisterSteamID').val();
+
+        $.ajax({
+            type: "POST",
+            url: "/register",
+            data: { username: username,
+                    email: email,
+                    password: password,
+                    steamid: steamid }
+        }).done(function (msg) {
+            location.reload();
+        });
     };
     
     // Client-side routes    
