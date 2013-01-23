@@ -1,3 +1,50 @@
+@font-face {
+    font-family: 'OrbitronLight';
+    src: url('../font/orbitron-light-webfont.eot');
+    src: url('../font/orbitron-light-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../font/orbitron-light-webfont.woff') format('woff'),
+         url('../font/orbitron-light-webfont.ttf') format('truetype'),
+         url('../font/orbitron-light-webfont.svg#OrbitronLight') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'OrbitronMedium';
+    src: url('../font/orbitron-medium-webfont.eot');
+    src: url('../font/orbitron-medium-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../font/orbitron-medium-webfont.woff') format('woff'),
+         url('../font/orbitron-medium-webfont.ttf') format('truetype'),
+         url('../font/orbitron-medium-webfont.svg#OrbitronMedium') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'OrbitronBold';
+    src: url('../font/orbitron-bold-webfont.eot');
+    src: url('../font/orbitron-bold-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../font/orbitron-bold-webfont.woff') format('woff'),
+         url('../font/orbitron-bold-webfont.ttf') format('truetype'),
+         url('../font/orbitron-bold-webfont.svg#OrbitronBold') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'OrbitronBlack';
+    src: url('../font/orbitron-black-webfont.eot');
+    src: url('../font/orbitron-black-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../font/orbitron-black-webfont.woff') format('woff'),
+         url('../font/orbitron-black-webfont.ttf') format('truetype'),
+         url('../font/orbitron-black-webfont.svg#OrbitronBlack') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
 
 hr { 
     margin: 15px 0;
@@ -44,11 +91,11 @@ a:visited {
  * Header */
 #base-header {
     color: #444;
-    font-family: 'Orbitron', sans-serif;
+    font-family: 'OrbitronMedium', sans-serif;
 }
 
 #header-title {
-    width: 350px;
+    width: 360px;
     background: #EEE;
     padding: 20px;
 }
@@ -59,7 +106,7 @@ a:visited {
     margin-right: 10px;
 }
 #header-links {
-    font-family: 'Orbitron', sans-serif;
+    font-family: 'OrbitronMedium', sans-serif;
 }
 #header-links ul {
     list-style: none;
@@ -87,7 +134,7 @@ a:visited {
 /*
  * Nav/Profile Links */
 #profile-links {
-    font-family: 'Orbitron', sans-serif;
+    font-family: 'OrbitronMedium', sans-serif;
     font-size: 13px;
     padding: 10px 20px;
     background: #EEE;
@@ -129,7 +176,7 @@ a:visited {
     height: 25px;
     padding: 10px;
     margin: 0 auto;
-    font-family: 'Orbitron', sans-serif;
+    font-family: 'OrbitronMedium', sans-serif;
     font-size: 12px;
 }
 #base-wrapper .content {
@@ -324,7 +371,7 @@ a:visited {
 #create-match {
 }
 #create-match .title {
-    font-family: 'Orbitron', sans-serif;
+    font-family: 'OrbitronMedium', sans-serif;
 }
 #create-match-form {
     background: white;
@@ -341,7 +388,7 @@ a:visited {
 
 }
 #profile .title {
-    font-family: 'Orbitron', sans-serif;
+    font-family: 'OrbitronMedium', sans-serif;
 }
 #profile .content {
     padding: 15px;
