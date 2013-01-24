@@ -307,7 +307,7 @@ a:visited {
     padding: 2px 4px;
 }
 .node .node-players {
-    width: 50px;
+    width: 90px;
     font-size: 18px;
     line-height: 62px;
     text-align: center;
@@ -370,10 +370,12 @@ a:visited {
  * Create Content */
 #create-match {
 }
-#create-match .title {
+#create-match .title,
+#view-match .title {
     font-family: 'OrbitronMedium', sans-serif;
 }
-#create-match-form {
+#create-match-inner,
+#view-match-inner {
     background: white;
     padding: 15px;
     border: 1px solid #DFDFDF;

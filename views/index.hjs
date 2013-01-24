@@ -31,7 +31,7 @@
             {{^session.username}}
             <div class="form-inline">
             <form action="/login" method="POST">
-              <input type="text" class="input-small" placeholder="Email" name="email">
+              <input type="text" class="input-small" placeholder="Username" name="username">
               <input type="password" class="input-small" placeholder="Password" name="password">
               <button type="submit" class="btn btn-small btn-success">Login</button>
               <button href="#register-modal" class="btn btn-small btn-primary" role="button" data-toggle="modal">Register</button>
@@ -54,6 +54,7 @@
         <ul>
             <li><i class="icon-search"></i><a data-bind="css: { selected: selectedHeaderLink() == 'find' }" href="#/find">Find</a></li>
             <li><i class="icon-cog"></i><a data-bind="css: { selected: selectedHeaderLink() == 'create' }" href="#/create">Create</a></li>
+            <li><i class="icon-cogs"></i><a data-bind="css: { selected: selectedHeaderLink() == 'match' }" href="#/match/" >Match</a></li>
             <li><i class="icon-group"></i><a data-bind="css: { selected: selectedHeaderLink() == 'friends' }" href="#/profile/alf/friends">Friends</a></li>
             <li><i class="icon-trophy"></i><a data-bind="css: { selected: selectedHeaderLink() == 'trophies' }" href="#/profile/alf/trophies">Trophies</a></li>
         </ul>
@@ -70,7 +71,7 @@
                     <li><i class="icon-star"></i><a href="#">Starred</a></li>
                 </ul>
             </nav>
-            <button class="btn btn-small pull-right"><i class="icon-refresh"></i> Refresh</button>
+            <button class="btn btn-small pull-right" data-bind="click: refreshMatches"><i class="icon-refresh"></i> Refresh</button>
             <span class="clearfix"></span>
             <br /><hr />
           </div>
@@ -96,7 +97,6 @@
                         <div class="pull-right">
                             <div class="node-players pull-left"><span data-bind="text: players"></span></div>
                             <div class="node-actions pull-right">
-                                <i class="icon-star" style="color:#444; font-size:20px; line-height:5px; margin-right:4px; text-decoration:none;"></i>
                                 <button class="btn btn-small btn-success">Apply</button>
                             </div>
                         </div>
@@ -116,8 +116,7 @@
                         <h4><span class="desc-type" data-bind="text: type"></span><span data-bind="text: title"></span></h4>
                         <h6 data-bind="text: 'Created by&nbsp;' + creator + '&nbsp;' + date">Created by Alf</h6>
 
-                        <button class="btn btn-small btn-success">Apply</button>
-                        <button class="btn btn-small btn-info">Save</button>
+                        <button class="btn btn-large btn-block btn-primary" data-bind="click: $root.joinMatch">Join Group</button>
                         <hr />
                         
                         <div id="url" class="input-prepend">
@@ -163,7 +162,7 @@
       <!-- Create Match Content -->
       <div id="create-match" data-bind="visible: selectedPage() == 'create' ">
           <div class="content">
-              <div id="create-match-form" data-bind="submit: createMatch.bind($data, '{{ session.username }}')">
+              <div id="create-match-inner" data-bind="submit: createMatch.bind($data, '{{ session.username }}')">
                 <h4 class="title">Create a match</h4>
                 <form class="form-horizontal">
                   <div class="control-group">
@@ -193,6 +192,7 @@
                         <option value="minecraft">Minecraft</option>
                         <option value="bf3">Battlefield 3</option>
                         <option value="dungeondefenders">Dungeon Defenders</option>
+                        <option value="chivalry">Chivalry - Medieval Warfare</option>
                       </select>
                     </div>
                   </div>
@@ -215,6 +215,53 @@
                   </div>
                 </form>
               </div>
+          </div>
+      </div>
+
+      <!-- View Match Content -->
+      <div id="view-match" class="container-fluid" data-bind="visible: selectedPage() == 'match' ">
+          <div class="content row-fluid">
+              <div id="view-match-inner" class="pull-left span8">
+                <h4 class="title">Match in progress</h4>
+              </div>
+              <div id="right-column" class="span4" data-bind="css: {fadeIn: selectedData}" style="opacity: 0;">
+                  <div id="infobox" data-bind="with: selectedData">
+                      <h4><span class="desc-type" data-bind="text: type"></span><span data-bind="text: title"></span></h4>
+                      <h6 data-bind="text: 'Created by&nbsp;' + creator + '&nbsp;' + date">Created by Alf</h6>
+
+                      <button class="btn btn-small btn-success">Apply</button>
+                      <button class="btn btn-small btn-info">Join</button>
+                      <hr />
+                      
+                      <div id="url" class="input-prepend">
+                        <span class="add-on"><i class="icon-link"></i></span>
+                        <input class="share-url" type="text" data-bind="attr: { value: 'http://matchmoblin.com/#/find/' + id }">
+                      </div>
+
+                      <table class="table table-hover">
+                        <thead>
+                          <tr>
+                            <th class="gray-bg"><i class="icon-file-alt"></i> <span>Description</span></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr><td><p data-bind="text: description"></p></td></tr>
+                          <tr class="gray-bg"><th><i class="icon-check"></i> <span>Requirements</span></th></tr>
+                          <!-- ko with: details.requirements -->
+                          <tr><td data-bind="text: 'Karma: ' + karma"></td></tr>
+                          <tr><td data-bind="text: 'Rank: ' + rank"></td></tr>
+                          <tr><td data-bind="text: 'Play Style: ' + playstyle"></td></tr>
+                          <!-- /ko -->
+                          <tr class="gray-bg"><th><i class="icon-group"></i> <span>Members</span></th></tr>
+                          <!-- ko foreach: details.members -->
+                          <tr><td data-bind="text: $data"></td></tr>
+                          <!-- /ko -->
+                          <tr class="gray-bg"><th><i class="icon-comments"></i> <span>Chat</span></th></tr>
+                        </tbody>
+                      </table>
+
+                  </div> <!-- /infobox -->
+              </div> <!-- /right column -->
           </div>
       </div>
 

@@ -30,7 +30,7 @@ var Match = mongoose.model('Match', matchSchema)
 module.exports.Match = Match;
 
 var userSchema = mongoose.Schema({
-    username: { type: String, required: true, unique: true },
+    username: { type: String, trim: true, index: true, required: true, unique: true },
     password: { type: String, required: true },
     email: { type: String, unique: true },
     karma: { type: Number, default: 0 },

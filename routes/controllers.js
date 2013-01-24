@@ -3,6 +3,7 @@
  */
 
 var db = require('../db.js');
+var bcrypt = require('bcrypt');
 
 exports.createMatch = function(req, res){
   var platform = req.param('platform');
@@ -21,10 +22,34 @@ exports.createMatch = function(req, res){
 };
 
 exports.login = function(req, res){
-  var username = req.param('email');
-  console.log(username);
-  req.session.username = username;
-  res.redirect('/');
+  var username = req.param('username');
+  var password = req.param('password');
+
+  // Query MongoDB for single match
+  db.User.findOne({ username: username }, function(err, user) {
+
+      // Send message if not found
+      if(!user) {
+        res.send("Username and/or Password are incorrect");
+      }
+      else {
+
+        // If user exists, lets check password
+        var checkHash = bcrypt.compareSync(password, user.password);
+      
+        // If password is true, set session and redirect
+        if (checkHash) {
+          req.session.username = user.username;
+          res.redirect('/');
+        } 
+        else {
+        res.send("Username and /or Password are incorrect");
+        }
+
+      // Respond as json request
+      res.json(json);
+      }
+  })
 }
 
 exports.logout = function(req, res){
@@ -38,10 +63,23 @@ exports.register = function(req, res){
   var password = req.param('password');
   var steamid = req.param('steamid');
 
-  var now = new Date();
-  var user = new db.User({ username: username, email: email, password: password, steamid: steamid });
-  user.save();
-  req.session.username = user.username;
+  var salt = bcrypt.genSaltSync(10);
+  var hash = bcrypt.hashSync(password, salt);
+  console.log(hash);
 
-  res.send('created user');
+  //console.log(bcrypt.compareSync("blah", hash));
+
+  var now = new Date();
+  var user = new db.User({ username: username, email: email, password: hash, steamid: steamid });
+  user.save(function(error, data) {
+    if (error) {
+      console.log(error);
+      res.json(error);
+    }
+    else {
+      req.session.username = user.username;
+      res.send(true);
+    }
+
+  });
 }

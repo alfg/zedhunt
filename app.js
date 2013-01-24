@@ -1,5 +1,4 @@
-
-/**
+/*
  * MatchMoblin - A social gaming and matchmaking platform.
  * Powered by Express.js, MongoDB, and Knockout.js.
  *
@@ -22,6 +21,7 @@ var express = require('express')
   , controllers = require('./routes/controllers')
   , http = require('http')
   , path = require('path');
+
 
 var app = express();
 
@@ -55,6 +55,7 @@ app.configure('development', function(){
 app.get('/', locals, routes.index);
 app.get('/users', user.list);
 app.get('/api/matches', api.matches);
+app.get('/api/match/:matchid', api.match);
 app.get('/api/profile/:username', api.profile);
 app.post('/match/create', controllers.createMatch);
 app.post('/login', controllers.login);

@@ -36,6 +36,38 @@ exports.matches = function(req, res){
   })
 };
 
+exports.match = function(req, res){
+  var matchid = req.params.matchid;
+
+  // Query all matches in MongoDB
+  db.Match.findOne({ _id: matchid }, function(err, match) {
+
+      // Send message if not found
+      if(!match) {
+        res.send(match + " not found.");
+      }
+      else {
+      // Construct json object
+      var json = { id: match._id,
+                   game: "/img/games/50x50/" + match.game + ".png",
+                   type: match.type,
+                   creator: match.creator,
+                   title: match.title,
+                   date: moment(match.date).fromNow(), //i.date.toJSON(),
+                   description: match.description,
+                   players: "1/3",
+                   details: {
+                              requirements: { karma: "10+", rank: "Experienced", playstyle: "Friendly" },
+                              members: ["Alf", "Superdude"]
+                   }
+      };
+      };
+
+      // Respond as json request
+      res.json({match: json});
+
+  });
+};
 
 exports.profile = function(req, res){
   // Lowercase for querying
