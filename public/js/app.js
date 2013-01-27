@@ -21,7 +21,7 @@ function HomeViewModel() {
     // Data
     var self = this;
 
-    // All observables on template
+    // All arbitrary observables
     self.selectedPage = ko.observable();
     self.selectedHeaderLink = ko.observable();
     self.findData = ko.observable();
@@ -29,8 +29,35 @@ function HomeViewModel() {
     self.selectedDetails = ko.observable();
     self.selectedNode = ko.observable();
     self.selectedData = ko.observable();
+    self.gamersOnline = ko.observable();
+
+    // Registration/Login observable forms
+    self.registerErrors = ko.observable();
+    self.regUsername = ko.observable();
+    self.regEmail = ko.observable();
+    self.regPassword = ko.observable();
+    self.regConfirmPassword = ko.observable();
+    self.regSteamID = ko.observable();
+    self.loginUsername = ko.observable();
+    self.loginPassword = ko.observable();
+    self.loginMessage = ko.observable();
 
     // Behaviours/Functions
+    self.gamersOnline = ko.computed(function() {
+        /* Users online count from stats API */
+
+        var userCount = [];
+        $.ajax({
+            url: "/api/stats",
+            async: false,
+            dataType: "json",
+            success: function (json) {
+                userCount = json.usersonline;
+            }
+        });
+        
+        return userCount;
+    });
     self.loadDetails = function(node) { 
         /* When clicking a node, redirect to node's url by id */
 
@@ -83,11 +110,19 @@ function HomeViewModel() {
     self.registerUser = function(form) {
         /* Registration POST request when user clicks and posts Register form */
 
+        var username = self.regUsername();
+        var email = self.regEmail();
+        var password = self.regPassword();
+        var confirmPassword = self.regConfirmPassword();
+        var steamid = self.regSteamID();
+
+        /*
         var username = $('#register-form #RegisterUsername').val();
         var email = $('#register-form #RegisterEmail').val();
         var password = $('#register-form #RegisterPassword').val();
         var confirmPassword = $('#register-form #RegisterConfirmPassword').val();
         var steamid = $('#register-form #RegisterSteamID').val();
+        */
 
         $.ajax({
             type: "POST",
@@ -101,7 +136,32 @@ function HomeViewModel() {
               location.reload();
             }
             else {
-              alert(msg);
+              // If errors, construct errors messages into a list
+              var json = [];
+              $.each(msg.errors, function(i, v) {
+                  json.push(v.message); 
+              });
+              
+              // Register errors list to display on client
+              self.registerErrors(json);
+            }
+        });
+    };
+    self.loginUser = function(form) {
+        /* Login Ajax Form on home */
+        var username = self.loginUsername();
+        var password = self.loginPassword();
+
+        $.ajax({
+            type: "POST",
+            url: "/login",
+            data: { username: username, password: password }
+        }).done(function (msg) {
+            if (msg == true) {
+              location.reload();
+            }
+            else {
+              self.loginMessage("Username and/or Password are incorrect");
             }
         });
     };

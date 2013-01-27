@@ -95,5 +95,10 @@ exports.profile = function(req, res){
       }
 
   })
+};
 
+exports.stats = function(req, res){
+  stats = { "usersonline": req.online.length}
+
+  res.json(stats);
 };

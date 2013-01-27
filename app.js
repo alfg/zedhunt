@@ -20,10 +20,27 @@ var express = require('express')
   , api = require('./routes/api')
   , controllers = require('./routes/controllers')
   , http = require('http')
-  , path = require('path');
+  , path = require('path')
+  , redis = require('redis')
+  , r = redis.createClient();
 
 
 var app = express();
+
+// Middlewares
+app.use(function(req, res, next){
+  var ua = req.headers['user-agent'];
+  r.zadd('online', Date.now(), ua, next);
+});
+app.use(function(req, res, next){
+  var min = 60 * 1000;
+  var ago = Date.now() - min;
+  r.zrevrangebyscore('online', '+inf', ago, function(err, users){
+    if (err) return next(err);
+    req.online = users;
+    next();
+  });
+});
 
 app.configure(function(){
   app.set('port', process.env.PORT || 3000);
@@ -47,16 +64,17 @@ locals = function(req, res, next) {
   next();
 };
 
+
 app.configure('development', function(){
   app.use(express.errorHandler());
 });
-
 
 app.get('/', locals, routes.index);
 app.get('/users', user.list);
 app.get('/api/matches', api.matches);
 app.get('/api/match/:matchid', api.match);
 app.get('/api/profile/:username', api.profile);
+app.get('/api/stats', api.stats);
 app.post('/match/create', controllers.createMatch);
 app.post('/login', controllers.login);
 app.get('/logout', controllers.logout);

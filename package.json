@@ -10,6 +10,8 @@
     "hjs": "*",
     "less-middleware": "*",
     "mongoose": "*",
-    "moment": "*"
+    "moment": "*",
+    "bcrypt": "*",
+    "redis": "*"
   }
 }

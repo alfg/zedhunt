@@ -64,6 +64,9 @@ a:visited {
 
 /* 
  * Helpers */
+.strong {
+    font-weight: bold;
+}
 .no-underline {
     text-decoration: none;
 }
@@ -91,10 +94,10 @@ a:visited {
  * Header */
 #base-header {
     color: #444;
-    font-family: 'OrbitronMedium', sans-serif;
 }
 
 #header-title {
+    font-family: 'OrbitronMedium', sans-serif;
     width: 360px;
     background: #EEE;
     padding: 20px;

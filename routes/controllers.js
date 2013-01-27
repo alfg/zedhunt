@@ -40,7 +40,7 @@ exports.login = function(req, res){
         // If password is true, set session and redirect
         if (checkHash) {
           req.session.username = user.username;
-          res.redirect('/');
+          res.send(true);
         } 
         else {
         res.send("Username and /or Password are incorrect");
