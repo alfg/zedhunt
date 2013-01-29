@@ -19,6 +19,7 @@ var express = require('express')
   , user = require('./routes/user')
   , api = require('./routes/api')
   , controllers = require('./routes/controllers')
+  , usersOnline = require('./util/usersOnline')
   , http = require('http')
   , path = require('path')
   , redis = require('redis')
@@ -26,21 +27,6 @@ var express = require('express')
 
 
 var app = express();
-
-// Middlewares
-app.use(function(req, res, next){
-  var ua = req.headers['user-agent'];
-  r.zadd('online', Date.now(), ua, next);
-});
-app.use(function(req, res, next){
-  var min = 60 * 1000;
-  var ago = Date.now() - min;
-  r.zrevrangebyscore('online', '+inf', ago, function(err, users){
-    if (err) return next(err);
-    req.online = users;
-    next();
-  });
-});
 
 app.configure(function(){
   app.set('port', process.env.PORT || 3000);
@@ -64,6 +50,27 @@ locals = function(req, res, next) {
   next();
 };
 
+/*
+trackUsers = function(req, res, next){
+  console.log('trackuser');
+  var ua = req.headers['user-agent'];
+  r.zadd('online', Date.now(), ua, next);
+};
+
+usersOnline = function(req, res, next){
+  console.log('useronline');
+  var min = 60 * 1000;
+  var ago = Date.now() - min;
+  r.zrevrangebyscore('online', '+inf', ago, function(err, users){
+    if (err) return next(err);
+    req.online = users;
+    next();
+  });
+};
+*/
+
+
+
 
 app.configure('development', function(){
   app.use(express.errorHandler());
@@ -74,7 +81,7 @@ app.get('/users', user.list);
 app.get('/api/matches', api.matches);
 app.get('/api/match/:matchid', api.match);
 app.get('/api/profile/:username', api.profile);
-app.get('/api/stats', api.stats);
+app.get('/api/stats', usersOnline.trackUsers, usersOnline.usersOnline, api.stats);
 app.post('/match/create', controllers.createMatch);
 app.post('/login', controllers.login);
 app.get('/logout', controllers.logout);

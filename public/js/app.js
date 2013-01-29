@@ -46,6 +46,7 @@ function HomeViewModel() {
     self.gamersOnline = ko.computed(function() {
         /* Users online count from stats API */
 
+        
         var userCount = [];
         $.ajax({
             url: "/api/stats",
@@ -281,6 +282,10 @@ function HomeViewModel() {
             // Set selected page and link to apply css underline
             self.selectedPage('profile');
             self.selectedHeaderLink('mygames');
+
+            // Enable select2 on Create page
+            $('#add-games').select2({
+            });
 
             // Load profile json, enable popovers on trophies, pre-select games tab
             $.get("/api/profile/" + name, self.profileData).done(function(){;

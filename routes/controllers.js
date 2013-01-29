@@ -62,6 +62,7 @@ exports.register = function(req, res){
   var email = req.param('email');
   var password = req.param('password');
   var steamid = req.param('steamid');
+  console.log('test');
 
   var salt = bcrypt.genSaltSync(10);
   var hash = bcrypt.hashSync(password, salt);

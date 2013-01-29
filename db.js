@@ -40,3 +40,10 @@ var userSchema = mongoose.Schema({
 var User = mongoose.model('User', userSchema)
 module.exports.User = User;
 
+var userGamesSchema = mongoose.Schema({
+    username: { type: String, trim: true, index: true, required: true },
+    gameid: { type: Number, index: true, required: true },
+    gametitle: { type: String, index: true, required: true }
+});
+var UserGames = mongoose.model('UserGames', userGamesSchema)
+module.exports.UserGames = UserGames;
