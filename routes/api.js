@@ -82,7 +82,7 @@ exports.profile = function(req, res){
       else {
       // Construct json object
       var json = { "name": user.username,
-                   "avatar": "http://placehold.it/350x350&text=" + username,
+                   "avatar": "http://placehold.it/350/555555/aaaaaa&text=" + username,
                    "karma": user.karma,
                    "id": user.id,
                    "games": [],
