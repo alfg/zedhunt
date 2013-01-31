@@ -53,7 +53,7 @@ hr {
 }
 
 body {
-    background: #222;
+    background: #222 url('/img/bg/bg_01.jpg') no-repeat fixed;
     margin-top: 10px;
     color: #ADADAD;
 }
@@ -110,7 +110,7 @@ a:visited {
 
 #header-title {
     font-family: 'OrbitronMedium', sans-serif;
-    width: 450px;
+    width: 400px;
     /* background: #EEE; */
     padding: 20px;
 }
@@ -120,13 +120,19 @@ a:visited {
 #header-title img {
     margin-right: 10px;
 }
+#header-title span {
+    background: rgba(19, 19, 19, 0.85);
+    padding: 0px 20px;
+    margin-left: 20px;
+}
 #header-links {
     font-family: 'OrbitronMedium', sans-serif;
 }
 #header-links ul {
+    background: rgba(19, 19, 19, 0.85);
     list-style: none;
     margin: 0;
-    padding: 20px;
+    padding: 10px 20px;
 }
 #header-links li {
     display: inline;
@@ -153,6 +159,7 @@ a:visited {
     font-size: 13px;
     padding: 10px 20px;
     color: #ADADAD;
+    background: rgba(19, 19, 19, 0.85);
     /* background: #EEE; */
 }
 #profile-links ul {
@@ -177,6 +184,9 @@ a:visited {
 #profile-links input {
     background-color: #161616;
     border: 1px solid #494949;
+}
+#profile-links form {
+    margin: 0;
 }
 
 /*
