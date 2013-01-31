@@ -1,3 +1,3 @@
-# Match Moblin
+# ZedHunt 
 
-### A social gaming and matchmaking platform.
+### A squad matchmaking platform for DayZ.

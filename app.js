@@ -1,5 +1,5 @@
 /*
- * MatchMoblin - A social gaming and matchmaking platform.
+ * ZedHunt.com - A squad matchmaking platform for DayZ.
  * Powered by Express.js, MongoDB, and Knockout.js.
  *
  * Author: Alf
@@ -10,7 +10,7 @@
  *   http://www.opensource.org/licenses/mit-license.php
  *
  * Project home:
- *   http://github.com/alfg/matchmoblin
+ *   http://github.com/alfg/zedhunt
  */
 
 // Module dependencies
@@ -22,9 +22,6 @@ var express = require('express')
   , usersOnline = require('./util/usersOnline')
   , http = require('http')
   , path = require('path')
-  , redis = require('redis')
-  , r = redis.createClient();
-
 
 var app = express();
 
@@ -49,28 +46,6 @@ locals = function(req, res, next) {
   console.log(req.session);
   next();
 };
-
-/*
-trackUsers = function(req, res, next){
-  console.log('trackuser');
-  var ua = req.headers['user-agent'];
-  r.zadd('online', Date.now(), ua, next);
-};
-
-usersOnline = function(req, res, next){
-  console.log('useronline');
-  var min = 60 * 1000;
-  var ago = Date.now() - min;
-  r.zrevrangebyscore('online', '+inf', ago, function(err, users){
-    if (err) return next(err);
-    req.online = users;
-    next();
-  });
-};
-*/
-
-
-
 
 app.configure('development', function(){
   app.use(express.errorHandler());

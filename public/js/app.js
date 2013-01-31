@@ -10,7 +10,7 @@
  *   http://www.opensource.org/licenses/mit-license.php
  *
  * Project home:
- *   http://github.com/alfg/matchmoblin
+ *   http://github.com/alfg/zedhunt
  */
 
 /*

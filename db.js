@@ -4,7 +4,7 @@
 
 // MongoDB import and connect
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://ghxst.local/matchmoblin');
+mongoose.connect('mongodb://ghxst.local/zedhunt');
 
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));

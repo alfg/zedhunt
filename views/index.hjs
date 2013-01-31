@@ -124,7 +124,7 @@
                         
                         <div id="url" class="input-prepend">
                           <span class="add-on"><i class="icon-link"></i></span>
-                          <input class="span11 share-url" type="text" data-bind="attr: { value: 'http://matchmoblin.com/#/find/' + id }">
+                          <input class="span11 share-url" type="text" data-bind="attr: { value: 'http://zedhunt.com/#/find/' + id }">
                         </div>
 
                         <table class="table">
@@ -238,7 +238,7 @@
                       
                       <div id="url" class="input-prepend">
                         <span class="add-on"><i class="icon-link"></i></span>
-                        <input class="share-url" type="text" data-bind="attr: { value: 'http://matchmoblin.com/#/find/' + id }">
+                        <input class="share-url" type="text" data-bind="attr: { value: 'http://zedhunt.com/#/find/' + id }">
                       </div>
 
                       <table class="table table-hover">
