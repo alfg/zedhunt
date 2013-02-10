@@ -370,7 +370,6 @@ a:visited {
     background: #5A5A5A;
     color: #EAEAEA;
     margin-bottom: 10px;
-    border: none;
 }
 #infobox .add-on {
     background-color: #3D3D3D;
@@ -448,6 +447,31 @@ a:visited {
     background-color: #353535;
 }
     
+/*
+ * Match */
+#view-match #dayz-map {
+    height: 200px;
+    overflow: hidden;
+    box-shadow: 0 0 10px 3px #333;
+}
+#view-match #match-chat {
+    min-height: 300px;
+}
+#view-match #match-chat {
+    position: relative;
+}
+#view-match #match-chat-text {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+#view-match #match-chat-text input {
+    margin-top: 10px;
+}
+#view-match #conversation {
+    max-height: 210px;
+    overflow: auto;
+}
 
 /*
  * Footer */

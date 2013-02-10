@@ -3,7 +3,8 @@
  * and models.
  */
 
-var db = require('../db.js')
+var db = require('../db.js');
+var io = require('socket.io');
 var moment = require('moment');
 
 exports.matches = function(req, res){
@@ -102,3 +103,14 @@ exports.stats = function(req, res){
 
   res.json(stats);
 };
+
+/*
+exports.chat = function(req, res){
+var chat = exports.sio
+  .of('/chat')
+  .on('connection', function (socket) {
+    socket.emit('updatechat', 'SERVER', 'you have connnected to a room<br />')
+});
+res.json('success');
+};
+*/

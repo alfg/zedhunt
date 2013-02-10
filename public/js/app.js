@@ -82,6 +82,14 @@ function HomeViewModel() {
         //alert(event.id);
         location.hash = '#/match/' + event.id;
     };
+    self.sendMessage = function(event) {
+        /* Sends chat messages in chatrooms */
+
+        msg = $('#chat-message').val();
+        io.emit('message', {user: user, msg: msg + '<br />', room: event.id});
+        $('#chat-message').val('');
+        //$('#conversation').scrollTop($('#conversation')[0].scrollHeight);
+    };
     self.createMatch = function(name) {
         /* Post request for when creating a match */
 
@@ -234,7 +242,20 @@ function HomeViewModel() {
             $.getJSON("/api/match/" + id, function(data) { 
                 self.selectedData(data.match);
             });
-            
+    
+            // Broadcast socket.io message of user entering room
+            io.emit('ready', {user: user, room: id});
+
+/*
+              var io = io.connect('http://battlestation.local:3000');
+              alert('test');
+              
+              io.emit('ready', 'test123');
+              io.on('announce', function(data) {
+                $('#conversation').append(data.message);
+              });
+*/
+
         });
         this.get('#/profile/:name/friends', function() {
             var name = this.params['name'];

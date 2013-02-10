@@ -1,0 +1,316 @@
+<div id="base-wrapper" class="container">
+  <!-- Find Games Content -->
+  <div id="find-games" data-bind="visible: selectedPage() == 'find' ">
+      <div class="content-tabs">
+        <!--
+        <nav id="sub-links">
+            <ul>
+                <li><i class="icon-book"></i><a href="#">Browse</a></li>
+                <li><i class="icon-filter"></i><a href="#">Filter</a></li>
+                <li><i class="icon-star"></i><a href="#">Starred</a></li>
+            </ul>
+        </nav>
+        -->
+        <button class="btn btn-small pull-right" data-bind="click: refreshMatches"><i class="icon-refresh"></i> Refresh</button>
+        <span class="clearfix"></span>
+        <br /><hr />
+      </div>
+      <div class="content container-fluid">
+        <div class="row-fluid">
+            <div id="left-column" class="span12" data-bind="css: { span8: selectedData}">
+
+              <div id="node-titles" class="row-fluid">
+                <div class="title-game pull-left">Game</div>
+                <div class="title-description pull-left">Summary</div>
+                <div class="pull-right">
+                    <div class="title-players pull-left">Players</div>
+                    <div class="title-actions pull-right">Actions</div>
+                </div>
+              </div>
+              
+              <!-- Iterated Group Node -->
+              <!-- ko with: findData -->
+              <!-- ko foreach: groups -->
+              <section class="node">
+                <div class="inner-node" data-bind="click: $root.loadDetails, css: { selected: $root.selectedNode() == id }">
+                    <div class="game-icon pull-left"><img data-bind="attr: {src: game }" /></div>
+                    <div class="pull-right">
+                        <div class="node-players pull-left"><span data-bind="text: players"></span></div>
+                        <div class="node-actions pull-right">
+                            <button class="btn btn-small btn-success">Apply</button>
+                        </div>
+                    </div>
+                    <div class="node-description">
+                        <span class="node-desc-text1"><span data-bind="text: type" class="node-desc-type"></span>&nbsp;<span data-bind="text: title"></span></span>
+                        <span class="node-desc-text2"><small data-bind="text: 'Created by&nbsp;' + creator + '&nbsp;' + date"></small></span>
+                    </div>
+                </div>
+              </section> <!-- /node -->
+              <!-- /ko -->
+              <!-- /ko -->
+              
+            </div> <!-- /left-column -->
+
+            <div id="right-column" class="span4" data-bind="css: {fadeIn: selectedData}" style="opacity: 0;">
+                <div id="infobox" data-bind="with: selectedData">
+                    <h4><span class="desc-type" data-bind="text: type"></span><span data-bind="text: title"></span></h4>
+                    <h6 data-bind="text: 'Created by&nbsp;' + creator + '&nbsp;' + date">Created by Alf</h6>
+
+                    <button class="btn btn-large btn-block btn-danger" data-bind="click: $root.joinMatch">Join Squad</button>
+                    <hr />
+                    
+                    <div id="url" class="input-prepend">
+                      <span class="add-on"><i class="icon-link"></i></span>
+                      <input class="span11 share-url" type="text" data-bind="attr: { value: 'http://zedhunt.com/#/find/' + id }">
+                    </div>
+
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th class="gray-bg"><i class="icon-file-alt"></i> <span>Description</span></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr><td><p data-bind="text: description"></p></td></tr>
+                        <tr class="gray-bg"><th><i class="icon-check"></i> <span>Requirements</span></th></tr>
+                        <!-- ko with: details.requirements -->
+                        <tr><td data-bind="text: 'Karma: ' + karma"></td></tr>
+                        <tr><td data-bind="text: 'Rank: ' + rank"></td></tr>
+                        <tr><td data-bind="text: 'Play Style: ' + playstyle"></td></tr>
+                        <!-- /ko -->
+                        <tr class="gray-bg"><th><i class="icon-group"></i> <span>Members</span></th></tr>
+                        <!-- ko foreach: details.members -->
+                        <tr><td data-bind="text: $data"></td></tr>
+                        <!-- /ko -->
+                        <tr class="gray-bg"><th><i class="icon-comments"></i> <span>Chat</span></th></tr>
+                      </tbody>
+                    </table>
+
+                    <div id="chat">
+                        <strong>Ubernoob</strong>: Hello? Pls let me join.<br />
+                        <strong>Superdude</strong>: No, gtfo.
+                    </div>
+                    <input class="input-block-level chat-input" type="text" placeholder="Say something...">
+
+                </div> <!-- /infobox -->
+            </div> <!-- /right column -->
+
+        </div>
+      </div>
+  </div> <!-- /find-games -->
+
+  <!-- Create Match Content -->
+  <div id="create-match" data-bind="visible: selectedPage() == 'create' ">
+      <div class="content">
+          <div id="create-match-inner" data-bind="submit: createMatch.bind($data, '{{ session.username }}')">
+            <h4 class="title">Create a match</h4>
+            <hr />
+            <div class="row">
+                <form class="form-horizontal span6">
+                  <h4>Group Settings</h4>
+                  <div class="control-group">
+                    <label class="control-label" for="inputEmail">Looking for group or members?</label>
+                    <div class="controls">
+                        <div id="input-type" class="btn-group" data-toggle="buttons-radio">
+                          <a class="btn">LFG</a>
+                          <a class="btn">LFM</a>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="control-group">
+                    <label class="control-label" for="input-size">Group Size</label>
+                    <div class="controls">
+                        <div id="input-size" class="btn-group" data-toggle="buttons-radio">
+                          <a class="btn">2</a>
+                          <a class="btn">3</a>
+                          <a class="btn">4</a>
+                          <a class="btn">5+</a>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="control-group">
+                    <label class="control-label" for="inputEmail">Play Style</label>
+                    <div class="controls">
+                      <select id="play-style">
+                        <option value="survivor">Survivor</option>
+                        <option value="bandit">Bandit</option>
+                        <option value="open">Open</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="control-group">
+                    <label class="control-label" for="inputMap">Map</label>
+                    <div class="controls">
+                      <select id="maps">
+                        <option value="chernarus">Chernarus</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="control-group">
+                    <label class="control-label" for="input-title">Title</label>
+                    <div class="controls">
+                      <input type="text" id="input-title" placeholder="Enter a short description">
+                    </div>
+                  </div>
+                  <div class="control-group">
+                    <label class="control-label" for="input-description">Description</label>
+                    <div class="controls">
+                      <textarea id="input-description" rows="3" placeholder="Enter a full description here and additional details"></textarea>
+                    </div>
+                  </div>
+                  <div class="control-group">
+                    <label class="control-label" for="inputVOIP">VOIP Server Address</label>
+                    <div class="controls">
+                      <select id="voip-options" class="span2">
+                        <option value="teamspeak">TeamSpeak</option>
+                        <option value="mumble">Mumble</option>
+                        <option value="mumble">Ventrilo</option>
+                      </select>
+                      <input type="text" id="inputVOIP" class="span2" placeholder="Server Address">
+                    </div>
+                  </div>
+                  <div class="control-group">
+                    <label class="control-label" for="input-password">Squad Password</label>
+                    <div class="controls">
+                      <input type="text" id="input-password" placeholder="Enter a password or leave blank if none">
+                    </div>
+                  </div>
+                  <div class="control-group">
+                    <div class="controls">
+                      <button type="submit" class="btn btn-success">Submit</button>
+                    </div>
+                  </div>
+                </form>
+
+                <div class="span5">
+                    <h4>Camp<small> Choose a meet point</small></h4>
+                    <img class="img-polaroid" src="/img/dayzmap.png" />
+                </div>
+
+            </div>
+          </div>
+      </div>
+  </div>
+
+  <!-- View Match Content -->
+  <div id="view-match" class="container-fluid" data-bind="visible: selectedPage() == 'match' ">
+      <div class="content row-fluid">
+          <div id="view-match-inner" class="pull-left span8">
+            <h4 class="title">Match in progress</h4>
+            <div id="dayz-map">
+                <img src="/img/dayzmap.png" />
+            </div>
+            <div id="match-chat" data-bind="with: selectedData">
+                <div id="match-chat-text">
+                    <div id="conversation"></div>
+                    <form data-bind="submit: $root.sendMessage" method="POST">
+                    <input id="chat-message" class="input-block-level" type="text" placeholder="M'ask you somethin'..." />
+                    <button id="send-button" class="btn">Send</button>
+                    </form>
+                </div>
+            </div>
+          </div>
+          <div id="right-column" class="span4" data-bind="css: {fadeIn: selectedData}" style="opacity: 0;">
+              <div id="infobox" data-bind="with: selectedData">
+                  <h4><span class="desc-type" data-bind="text: type"></span><span data-bind="text: title"></span></h4>
+                  <h6 data-bind="text: 'Created by&nbsp;' + creator + '&nbsp;' + date">Created by Alf</h6>
+
+                  <button class="btn btn-small btn-success">Apply</button>
+                  <button class="btn btn-small btn-info">Join</button>
+                  <hr />
+                  
+                  <div id="url" class="input-prepend">
+                    <span class="add-on"><i class="icon-link"></i></span>
+                    <input class="share-url span11" type="text" data-bind="attr: { value: 'http://zedhunt.com/#/find/' + id }">
+                  </div>
+
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th class="gray-bg"><i class="icon-file-alt"></i> <span>Description</span></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr><td><p data-bind="text: description"></p></td></tr>
+                      <tr class="gray-bg"><th><i class="icon-check"></i> <span>Requirements</span></th></tr>
+                      <!-- ko with: details.requirements -->
+                      <tr><td data-bind="text: 'Karma: ' + karma"></td></tr>
+                      <tr><td data-bind="text: 'Rank: ' + rank"></td></tr>
+                      <tr><td data-bind="text: 'Play Style: ' + playstyle"></td></tr>
+                      <!-- /ko -->
+                      <tr class="gray-bg"><th><i class="icon-group"></i> <span>Members</span></th></tr>
+                      <!-- ko foreach: details.members -->
+                      <tr><td data-bind="text: $data"></td></tr>
+                      <!-- /ko -->
+                      <tr class="gray-bg"><th><i class="icon-group"></i> <span>Mumble Server</span></th></tr>
+                      <tr><td><a href="#">mumble://123.123.123.123:1234</a></td></tr>
+                    </tbody>
+                  </table>
+
+              </div> <!-- /infobox -->
+          </div> <!-- /right column -->
+      </div>
+  </div>
+
+  <!-- Profile Content -->
+  <div id="profile" data-bind="with: profileData, visible: selectedPage() == 'profile' ">
+    <div class="content container-fluid">
+        <div class="row-fluid">
+            <div id="profile-left" class="span4">
+                <img data-bind="attr: {src: avatar}" />
+            </div>
+
+            <div id="profile-right" class="span8">
+                <h3 class="title" data-bind="text: name"></h3>
+                <div class="tabbable"> <!-- Only required for left/right tabs -->
+                    <ul class="nav nav-pills" id="profile-tabs">
+                        <li><a href="#profile-profile" data-toggle="tab"><i class="icon-user">&nbsp;</i>Profile</a></li>
+                        {{! <li><a href="#profile-friends" data-toggle="tab"><i class="icon-group">&nbsp;</i>Friends</a></li>
+                        <li><a href="#profile-trophies" data-toggle="tab"><i class="icon-trophy">&nbsp;</i>Trophies</a></li> }}
+                        {{! <li><a href="#profile-games" data-toggle="tab"><img src="/img/gamepad.png" width="18px" height="18px"> Games</a></li> }}
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="profile-profile">
+                            <p>I'm in Section 1.</p>
+                        </div>
+                        <div class="tab-pane" id="profile-friends">
+                            <table class="table table-striped table-hover">
+                              <tbody data-bind="foreach: friends">
+                                <tr>
+                                  <td class="span1"><img data-bind="attr: {src: avatar}" width="50px" /></td>
+                                  <td data-bind="text: name"></td>
+                                </tr>
+                              </tbody>
+                            </table>
+                        </div>
+                        <div class="tab-pane" id="profile-trophies">
+                            <!-- ko foreach: trophies -->
+                            <img data-bind="attr: {src: icon, title: trophy, 'data-original-title': trophy, 'data-content': description}" width="75px" height="75px" rel="popover" />
+                            <!-- /ko -->
+                        </div>
+                        <div class="tab-pane" id="profile-games">
+                            <table class="table table-striped table-hover">
+                              <thead>
+                                <tr>
+                                  <th>Game</th>
+                                  <th>Platform</th>
+                                </tr>
+                              </thead>
+                              <tbody data-bind="foreach: games">
+                                <tr>
+                                  <td><img data-bind="attr: {src: icon}" width="25px" height="25px" />&nbsp;<span data-bind="text: name"></span></td>
+                                  <td data-bind="text: platform"></td>
+                                </tr>
+                              </tbody>
+                            </table>
+                        </div>
+                    </div> <!-- tab-content -->
+                </div> <!-- tabbable -->
+            </div> <!-- profile-right -->
+        </div> <!-- row-fluid -->
+    </div> <!-- /container -->
+  </div> <!-- /profile -->
+
+
+</div> <!-- /container -->
+

@@ -169,16 +169,6 @@
                 <h4 class="title">Create a match</h4>
                 <form class="form-horizontal">
                   <div class="control-group">
-                    <label class="control-label" for="inputEmail">Platform</label>
-                    <div class="controls">
-                        <div id="input-platform" class="btn-group" data-toggle="buttons-radio">
-                          <a class="btn">PC</a>
-                          <a class="btn">PS3</a>
-                          <a class="btn">360</a>
-                        </div>
-                    </div>
-                  </div>
-                  <div class="control-group">
                     <label class="control-label" for="inputEmail">Looking for group or members?</label>
                     <div class="controls">
                         <div id="input-type" class="btn-group" data-toggle="buttons-radio">
@@ -188,27 +178,55 @@
                     </div>
                   </div>
                   <div class="control-group">
-                    <label class="control-label" for="inputEmail">Game</label>
+                    <label class="control-label" for="input-size">Group Size</label>
                     <div class="controls">
-                      <select id="games-list">
-                        <option value="dayz">DayZ</option>
-                        <option value="minecraft">Minecraft</option>
-                        <option value="bf3">Battlefield 3</option>
-                        <option value="dungeondefenders">Dungeon Defenders</option>
-                        <option value="chivalry">Chivalry - Medieval Warfare</option>
+                        <div id="input-size" class="btn-group" data-toggle="buttons-radio">
+                          <a class="btn">2</a>
+                          <a class="btn">3</a>
+                          <a class="btn">4</a>
+                          <a class="btn">5+</a>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="control-group">
+                    <label class="control-label" for="inputEmail">Play Style</label>
+                    <div class="controls">
+                      <select id="play-style">
+                        <option value="survivor">Survivor</option>
+                        <option value="bandit">Bandit</option>
+                        <option value="open">Open</option>
                       </select>
                     </div>
                   </div>
                   <div class="control-group">
-                    <label class="control-label" for="inputEmail">Title</label>
+                    <label class="control-label" for="inputMap">Map</label>
                     <div class="controls">
-                      <input type="text" id="input-title" placeholder="Enter a descriptive title">
+                      <select id="maps">
+                        <option value="chernarus">Chernarus</option>
+                      </select>
                     </div>
                   </div>
                   <div class="control-group">
-                    <label class="control-label" for="inputPassword">Description</label>
+                    <label class="control-label" for="input-title">Title</label>
                     <div class="controls">
-                      <textarea id="input-description" rows="3" placeholder="Enter a full description here"></textarea>
+                      <input type="text" id="input-title" placeholder="Enter a short description">
+                    </div>
+                  </div>
+                  <div class="control-group">
+                    <label class="control-label" for="input-description">Description</label>
+                    <div class="controls">
+                      <textarea id="input-description" rows="3" placeholder="Enter a full description here and additional details"></textarea>
+                    </div>
+                  </div>
+                  <div class="control-group">
+                    <label class="control-label" for="inputContact">Contact</label>
+                    <div class="controls">
+                      <select id="contact-options" class="span2">
+                        <option value="skype">Skype</option>
+                        <option value="google">Gmail/gTalk</option>
+                        <option value="steam">Steam</option>
+                      </select>
+                      <input type="text" id="contact-value" class="span2" placeholder="Contact username">
                     </div>
                   </div>
                   <div class="control-group">

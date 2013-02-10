@@ -12,6 +12,8 @@
     "mongoose": "*",
     "moment": "*",
     "bcrypt": "*",
-    "redis": "*"
+    "redis": "*",
+    "express.io": "*",
+    "hogan-express": "*"
   }
 }
