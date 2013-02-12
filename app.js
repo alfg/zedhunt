@@ -34,6 +34,11 @@ s.listen(3000);
 
 app.http().io()
 
+app.io.configure(function () {
+    app.io.set('transports', ['xhr-polling']);
+    app.io.set('polling duration', 10);
+});
+
 app.io.route('ready', function(req) {
     req.io.join(req.data.room);
     req.io.room(req.data.room).broadcast('announce', {

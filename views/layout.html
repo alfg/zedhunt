@@ -146,7 +146,7 @@
 
     <script src="/socket.io/socket.io.js" type="text/javascript"></script>
     <script>
-      var io = io.connect('http://battlestation.local:3000');
+      var io = io.connect();
       
       io.on('announce', function(data) {
         $('#conversation').append(data.message);
