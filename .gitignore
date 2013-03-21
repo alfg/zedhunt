@@ -9,6 +9,7 @@ lib-cov
 *.tmp
 *.swp
 *.swo
+public/img/maps/
 
 pids
 logs

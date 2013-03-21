@@ -454,6 +454,9 @@ a:visited {
     overflow: hidden;
     box-shadow: 0 0 10px 3px #333;
 }
+#view-match #map {
+    height: 180px;
+}
 #view-match #match-chat {
     min-height: 300px;
 }
