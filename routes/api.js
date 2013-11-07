@@ -17,7 +17,8 @@ exports.matches = function(req, res){
       matches.forEach(function (i) {
           json.push({
               id: i._id,
-              game: "/img/games/50x50/" + i.game + ".png",
+              //game: "/img/games/50x50/" + i.game + ".png",
+              game: "/img/games/50x50/dayz.png",
               type: i.type,
               creator: i.creator,
               title: i.title,
@@ -25,7 +26,7 @@ exports.matches = function(req, res){
               description: i.description,
               players: "1/3",
               details: {
-                          requirements: { karma: "10+", rank: "Experienced", playstyle: "Friendly" },
+                          requirements: { karma: "10+", rank: "Experienced", playstyle: i.playstyle },
                           members: ["Alf", "Superdude"]
               }
           });
@@ -58,7 +59,7 @@ exports.match = function(req, res){
                    description: match.description,
                    players: "1/3",
                    details: {
-                              requirements: { karma: "10+", rank: "Experienced", playstyle: "Friendly" },
+                              requirements: { karma: "10+", rank: "Experienced", playstyle: match.playstyle || '' },
                               members: ["Alf", "Superdude"]
                    }
       };

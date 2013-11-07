@@ -1,0 +1,30 @@
+    <div id="base-wrapper" class="container login-screen">
+        <div class="content container-fluid">
+            <h4>Please login to find matches</h4>
+            <hr>
+            <form data-bind="submit: loginUser">
+                <div class="form-horizontal">
+                    <div class="control-group">
+                        <label class="control-label" for="loginUsername">Username</label>
+                        <div class="controls">
+                            <input type="text" id="loginUsername" placeholder="Username" data-bind="value: loginUsername">
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="loginPassword">Password</label>
+                        <div class="controls">
+                            <input type="password" id="loginPassword" placeholder="Password" data-bind="value: loginPassword">
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <div class="controls">
+                            <button type="submit" class="btn btn-small btn-success">Login</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <span class="text-error" data-bind="text: loginMessage"></span>
+            <a class="pull-right" href="/register">Looking to register instead?</a>
+        </div>
+    </div>
+

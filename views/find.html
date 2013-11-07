@@ -13,7 +13,6 @@
         -->
         <button class="btn btn-small pull-right" data-bind="click: refreshMatches"><i class="icon-refresh"></i> Refresh</button>
         <span class="clearfix"></span>
-        <br /><hr />
       </div>
       <div class="content container-fluid">
         <div class="row-fluid">
@@ -37,7 +36,7 @@
                     <div class="pull-right">
                         <div class="node-players pull-left"><span data-bind="text: players"></span></div>
                         <div class="node-actions pull-right">
-                            <button class="btn btn-small btn-success">Apply</button>
+                            <button class="btn btn-small btn-success">View</button>
                         </div>
                     </div>
                     <div class="node-description">
@@ -74,7 +73,6 @@
                         <tr><td><p data-bind="text: description"></p></td></tr>
                         <tr class="gray-bg"><th><i class="icon-check"></i> <span>Requirements</span></th></tr>
                         <!-- ko with: details.requirements -->
-                        <tr><td data-bind="text: 'Karma: ' + karma"></td></tr>
                         <tr><td data-bind="text: 'Rank: ' + rank"></td></tr>
                         <tr><td data-bind="text: 'Play Style: ' + playstyle"></td></tr>
                         <!-- /ko -->
@@ -82,16 +80,8 @@
                         <!-- ko foreach: details.members -->
                         <tr><td data-bind="text: $data"></td></tr>
                         <!-- /ko -->
-                        <tr class="gray-bg"><th><i class="icon-comments"></i> <span>Chat</span></th></tr>
                       </tbody>
                     </table>
-
-                    <div id="chat">
-                        <strong>Ubernoob</strong>: Hello? Pls let me join.<br />
-                        <strong>Superdude</strong>: No, gtfo.
-                    </div>
-                    <input class="input-block-level chat-input" type="text" placeholder="Say something...">
-
                 </div> <!-- /infobox -->
             </div> <!-- /right column -->
 
@@ -106,13 +96,13 @@
             <h4 class="title">Create a match</h4>
             <hr />
             <div class="row">
-                <form class="form-horizontal span6">
+                <form id="create-match-form" class="form-horizontal span6">
                   <h4>Group Settings</h4>
                   <div class="control-group">
                     <label class="control-label" for="inputEmail">Looking for group or members?</label>
                     <div class="controls">
                         <div id="input-type" class="btn-group" data-toggle="buttons-radio">
-                          <a class="btn">LFG</a>
+                          <a class="btn active">LFG</a>
                           <a class="btn">LFM</a>
                         </div>
                     </div>
@@ -121,7 +111,7 @@
                     <label class="control-label" for="input-size">Group Size</label>
                     <div class="controls">
                         <div id="input-size" class="btn-group" data-toggle="buttons-radio">
-                          <a class="btn">2</a>
+                          <a class="btn active">2</a>
                           <a class="btn">3</a>
                           <a class="btn">4</a>
                           <a class="btn">5+</a>
@@ -131,7 +121,7 @@
                   <div class="control-group">
                     <label class="control-label" for="inputEmail">Play Style</label>
                     <div class="controls">
-                      <select id="play-style">
+                      <select id="play-style" name="playstyle">
                         <option value="survivor">Survivor</option>
                         <option value="bandit">Bandit</option>
                         <option value="open">Open</option>
@@ -149,19 +139,20 @@
                   <div class="control-group">
                     <label class="control-label" for="input-title">Title</label>
                     <div class="controls">
-                      <input type="text" id="input-title" placeholder="Enter a short description">
+                      <input type="text" id="input-title" placeholder="Enter a short description" required>
                     </div>
                   </div>
                   <div class="control-group">
                     <label class="control-label" for="input-description">Description</label>
                     <div class="controls">
-                      <textarea id="input-description" rows="3" placeholder="Enter a full description here and additional details"></textarea>
+                      <textarea id="input-description" rows="3" placeholder="Enter a full description here and additional details" name="description" required></textarea>
                     </div>
                   </div>
                   <div class="control-group">
                     <label class="control-label" for="inputVOIP">VOIP Server Address</label>
                     <div class="controls">
-                      <select id="voip-options" class="span2">
+                      <select id="voip-options" class="span2" name="voip">
+                        <option value="none">None</option>
                         <option value="teamspeak">TeamSpeak</option>
                         <option value="mumble">Mumble</option>
                         <option value="mumble">Ventrilo</option>
@@ -180,6 +171,7 @@
                       <button type="submit" class="btn btn-success">Submit</button>
                     </div>
                   </div>
+                  <span id="create-error" class="text-error"></span>
                 </form>
 
                 <div class="span5">
@@ -207,8 +199,9 @@
                 <div id="match-chat-text">
                     <div id="conversation"></div>
                     <form data-bind="submit: $root.sendMessage" method="POST">
-                    <input id="chat-message" class="input-block-level" type="text" placeholder="M'ask you somethin'..." />
-                    <button id="send-button" class="btn">Send</button>
+                        <input id="chat-message" class="input-block-level" type="text" placeholder="M'ask you somethin'..." />
+                        <input id="room" type="hidden" data-bind="value: id" />
+                        <button id="send-button" class="btn">Send</button>
                     </form>
                 </div>
             </div>
@@ -218,8 +211,7 @@
                   <h4><span class="desc-type" data-bind="text: type"></span><span data-bind="text: title"></span></h4>
                   <h6 data-bind="text: 'Created by&nbsp;' + creator + '&nbsp;' + date">Created by Alf</h6>
 
-                  <button class="btn btn-small btn-success">Apply</button>
-                  <button class="btn btn-small btn-info">Join</button>
+                  <button class="btn btn-small btn-danger" data-bind="click: $root.leaveMatch">Leave Match</button>
                   <hr />
                   
                   <div id="url" class="input-prepend">

@@ -143,13 +143,22 @@ a:visited {
     color: #A39D9D;
     margin-left: 5px;
 }
-#header-links .selected {
+#header-links li.selected a {
     border-bottom: 2px solid #AD2626;
     padding-bottom: 5px;
     -webkit-transition: all 0.2s ease;
     -moz-transition: all 0.2s ease;
     -o-transition: all 0.2s ease;
     transition: all 0.2s ease;
+}
+#header-links li.selected .icon-search {
+    color: #3B62A8;
+}
+#header-links li.selected .icon-cog {
+    color: #BCC232;
+}
+#header-links li.selected .icon-cogs {
+    color: #B41111;
 }
 
 /*
@@ -230,6 +239,10 @@ a:visited {
      -o-transition-delay: .2s;
      -moz-transition-delay: .2s;
      -webkit-transition-delay: .2s;
+}
+.login-screen,
+.register-screen {
+    width: 450px;
 }
 
 /*
@@ -418,6 +431,10 @@ a:visited {
     padding: 15px;
 }
 #games-list {
+}
+
+#create-match #create-error {
+    margin-left: 180px;
 }
 
 /*

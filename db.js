@@ -18,13 +18,12 @@ db.once('open', function callback() {
  * MongoDB Schema and Models */
 
 var matchSchema = mongoose.Schema({
-    platform: { type: String, required: true },
-    game: { type: String, required: true },
     type: { type: String, required: true },
     creator: { type: String, required: true },
     title: { type: String, required: true },
     date: { type: Date, required: true },
-    description: String
+    description: String,
+    playstyle: { type: String, required: true }
 });
 var Match = mongoose.model('Match', matchSchema)
 module.exports.Match = Match;
@@ -32,7 +31,7 @@ module.exports.Match = Match;
 var userSchema = mongoose.Schema({
     username: { type: String, trim: true, index: true, required: true, unique: true },
     password: { type: String, required: true },
-    email: { type: String, unique: true },
+    email: { type: String, index: { unique: true, sparse: true }},
     karma: { type: Number, default: 0 },
     steamid: String,
     date: Date 

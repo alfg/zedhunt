@@ -1,0 +1,54 @@
+    <div id="base-wrapper" class="container login-screen">
+        <div class="content container-fluid">
+            <h4>Please register to find matches</h4>
+            <hr>
+            <div class="row-fluid">
+                <div>
+                    <!-- Register -->
+                    <form data-bind="submit: registerUser">
+                        <div id="register-form" class="form-horizontal">
+                            <div class="control-group">
+                                <label class="control-label" for="RegisterUsername">Username</label>
+                                <div class="controls">
+                                    <input type="text" id="RegisterUsername" placeholder="Username" data-bind="value: regUsername">
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label" for="RegisterEmail">Email (optional)</label>
+                                <div class="controls">
+                                    <input type="text" id="RegisterEmail" placeholder="Email" data-bind="value: regEmail">
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label" for="RegisterPassword">Password</label>
+                                <div class="controls">
+                                    <input type="password" id="RegisterPassword" placeholder="Password" data-bind="value: regPassword">
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label" for="RegisterPasswordConfirm">Confirm Password</label>
+                                <div class="controls">
+                                    <input type="password" id="RegisterConfirmPassword" placeholder="Confirm Password" data-bind="value: regConfirmPassword">
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label" for="inputSteamID">Steam ID (optional)</label>
+                                <div class="controls">
+                                    <input type="text" id="inputSteamID" placeholder="Steam ID" data-bind="value: regSteamID">
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <div class="controls">
+                                    <button type="submit" class="btn btn-primary">Register</button>
+                                </div>
+                            </div>
+                            <ul data-bind="foreach: registerErrors">
+                                <li data-bind="text: $data.msg"></li>
+                            </ul>
+                        </div>
+                    </form>
+                    <a class="pull-right" href="/login">Looking to login instead?</a>
+                </div>
+            </div>
+        </div>
+    </div>

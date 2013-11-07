@@ -24,6 +24,7 @@ function HomeViewModel() {
     // All arbitrary observables
     self.selectedPage = ko.observable();
     self.selectedHeaderLink = ko.observable();
+    self.selectedMatch = ko.observable();
     self.findData = ko.observable();
     self.profileData = ko.observable();
     self.selectedDetails = ko.observable();
@@ -46,7 +47,6 @@ function HomeViewModel() {
     self.gamersOnline = ko.computed(function() {
         /* Users online count from stats API */
 
-        
         var userCount = [];
         $.ajax({
             url: "/api/stats",
@@ -81,12 +81,22 @@ function HomeViewModel() {
 
         //alert(event.id);
         location.hash = '#/match/' + event.id;
+        self.selectedMatch("#/match/" + event.id);
     };
-    self.sendMessage = function(event) {
+    self.leaveMatch = function(event) {
+      /* Leave match button on match view */
+
+      room = $('#room').val();
+      io.emit('leave', {user: user, room: room});
+      location.hash = '#/find/';
+      self.selectedMatch(null);
+    };
+    self.sendMessage = function(formElement) {
         /* Sends chat messages in chatrooms */
 
         msg = $('#chat-message').val();
-        io.emit('message', {user: user, msg: msg + '<br />', room: event.id});
+        room = $('#room').val();
+        io.emit('message', {user: user, msg: msg + '<br />', room: room});
         $('#chat-message').val('');
         //$('#conversation').scrollTop($('#conversation')[0].scrollHeight);
     };
@@ -99,6 +109,7 @@ function HomeViewModel() {
         var title = $('#input-title').val();
         var desc = $('#input-description').val();
         var creator = name; //TODO Grab name from session
+        var playstyle = $('#play-style').val();
 
         $.ajax({
             type: "POST",
@@ -108,13 +119,25 @@ function HomeViewModel() {
                     game: game,
                     title: title,
                     desc: desc,
-                    creator: creator }
+                    creator: creator,
+                    playstyle: playstyle }
         
             }).done(function (msg) {
-                location.hash = '#/find';
+              if (msg.errors) {
+                console.log("error");
+                $("#create-error").text("Something went wrong!");
+                return false;
+
+              }
+              else
+              {
+                location.hash = '#/match/' + msg;
+                self.selectedMatch("#/match/" + msg);
+              }
             });
 
         //location.hash = '#/match/new';
+      return false;
     };
     self.registerUser = function(form) {
         /* Registration POST request when user clicks and posts Register form */
@@ -139,8 +162,20 @@ function HomeViewModel() {
             data: { username: username,
                     email: email,
                     password: password,
-                    steamid: steamid }
-        }).done(function (msg) {
+                    steamid: steamid },
+            success: function(response) {
+              location.reload();
+            },
+            error: function(xhr, options, err) {
+              // If errors, construct errors messages into a list
+              var jsonResponse = $.parseJSON(xhr.responseText);
+              console.log(jsonResponse.errors);
+
+              // Register errors list to display on client
+              self.registerErrors(jsonResponse.errors);
+            }
+        });
+          /*.done(function (msg) {
             if (msg == true) {
               location.reload();
             }
@@ -154,7 +189,7 @@ function HomeViewModel() {
               // Register errors list to display on client
               self.registerErrors(json);
             }
-        });
+        });*/
     };
     self.loginUser = function(form) {
         /* Login Ajax Form on home */
@@ -167,7 +202,7 @@ function HomeViewModel() {
             data: { username: username, password: password }
         }).done(function (msg) {
             if (msg == true) {
-              location.reload();
+              window.location.reload();
             }
             else {
               self.loginMessage("Username and/or Password are incorrect");
@@ -331,7 +366,12 @@ function HomeViewModel() {
         });
                 
         // Redirect index to #/find
-        this.get('/', function() { this.redirect('#/find') });        
+        this.get('/', function() { this.redirect('#/find') });
+
+        // Prevent sammy.js from redirect form submissions
+        this._checkFormSubmission = function(form) {
+            return (false);
+        };
     }).run();
     
 };
