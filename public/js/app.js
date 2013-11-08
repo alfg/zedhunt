@@ -17,6 +17,9 @@
  * All Knockout views, routes, logic.
  */
 
+FirebaseUrl = 'https://zombies.firebaseio.com/';
+FirebaseChatRoomUrl = 'https://zombies.firebaseio.com/chat/room/';
+
 function HomeViewModel() {
     // Data
     var self = this;
@@ -87,16 +90,16 @@ function HomeViewModel() {
       /* Leave match button on match view */
 
       room = $('#room').val();
-      io.emit('leave', {user: user, room: room});
       location.hash = '#/find/';
       self.selectedMatch(null);
     };
     self.sendMessage = function(formElement) {
         /* Sends chat messages in chatrooms */
+        var msg = $('#chat-message').val();
+        var room = $('#room').val();
+        var messagesRef = new Firebase(FirebaseChatRoomUrl + room + '/messages');
+        messagesRef.push({name: user, text:msg});
 
-        msg = $('#chat-message').val();
-        room = $('#room').val();
-        io.emit('message', {user: user, msg: msg + '<br />', room: room});
         $('#chat-message').val('');
         //$('#conversation').scrollTop($('#conversation')[0].scrollHeight);
     };
@@ -175,21 +178,6 @@ function HomeViewModel() {
               self.registerErrors(jsonResponse.errors);
             }
         });
-          /*.done(function (msg) {
-            if (msg == true) {
-              location.reload();
-            }
-            else {
-              // If errors, construct errors messages into a list
-              var json = [];
-              $.each(msg.errors, function(i, v) {
-                  json.push(v.message); 
-              });
-              
-              // Register errors list to display on client
-              self.registerErrors(json);
-            }
-        });*/
     };
     self.loginUser = function(form) {
         /* Login Ajax Form on home */
@@ -241,21 +229,6 @@ function HomeViewModel() {
             $.getJSON("/api/match/" + id, function(data) { 
                 self.selectedData(data.match);
             });
-
-            /* Old method of just using loaded array to load single match
-            // Fetch latest json data and push to findData binding
-            $.getJSON("/api/matches/", function(data) { 
-                self.findData(data);
-
-                // Using fetched data, find selected node's details
-                $.each(data.groups, function(i, v) {
-                    if (v.id == id) {
-                        self.selectedData(v);
-                    }
-                });
-            });
-            */
-
         });
         this.get('#/create', function() {
 
@@ -277,20 +250,38 @@ function HomeViewModel() {
             $.getJSON("/api/match/" + id, function(data) { 
                 self.selectedData(data.match);
             });
-    
-            // Broadcast socket.io message of user entering room
-            io.emit('ready', {user: user, room: id});
 
-/*
-              var io = io.connect('http://battlestation.local:3000');
-              alert('test');
-              
-              io.emit('ready', 'test123');
-              io.on('announce', function(data) {
-                $('#conversation').append(data.message);
-              });
-*/
+            // Add firebase callback for messages stored and added
+            var messagesRef = new Firebase(FirebaseChatRoomUrl + id + '/messages');
+            var onlineRef = new Firebase(FirebaseChatRoomUrl + id + '/users/' + user + '/online');
 
+            // stores the timestamp of my last disconnect (the last time I was seen online)
+            var lastOnlineRef = new Firebase(FirebaseChatRoomUrl + id + '/users/' + user + '/lastOnline');
+
+            var connectedRef = new Firebase(FirebaseUrl + '/.info/connected');
+            connectedRef.on('value', function(snap) {
+                if (snap.val() === true) {
+                    // We're connected (or reconnected)! Do anything here that should happen only if online (or on reconnect)
+
+                    // add this device to my connections list
+                    // this value could contain info about the device or a timestamp too
+                    onlineRef.set(true);
+
+                    // when I disconnect, remove this device
+                    onlineRef.onDisconnect().remove();
+
+
+                    // when I disconnect, update the last time I was seen online
+                    lastOnlineRef.onDisconnect().set(Firebase.ServerValue.TIMESTAMP);
+                }
+            });
+
+            messagesRef.limit(10).on('child_added', function (snapshot) {
+              var message = snapshot.val();
+              $('<div/>').text(message.text).prepend($('<em/>')
+                .text(message.name+': ')).appendTo($('#messages'));
+              //$('#messages')[0].scrollTop = $('#messages')[0].scrollHeight;
+            });
         });
         this.get('#/profile/:name/friends', function() {
             var name = this.params['name'];

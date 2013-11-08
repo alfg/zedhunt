@@ -472,10 +472,10 @@ a:visited {
     box-shadow: 0 0 10px 3px #333;
 }
 #view-match #map {
-    height: 180px;
+    min-height: 500px;
 }
 #view-match #match-chat {
-    min-height: 300px;
+    min-height: 500px;
 }
 #view-match #match-chat {
     position: relative;
@@ -488,7 +488,8 @@ a:visited {
 #view-match #match-chat-text input {
     margin-top: 10px;
 }
-#view-match #conversation {
+#view-match #conversation,
+#view-match #messages {
     max-height: 210px;
     overflow: auto;
 }

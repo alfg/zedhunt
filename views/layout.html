@@ -18,6 +18,7 @@
        <link rel="stylesheet" href="/css/leaflet.ie.css" />
      <![endif]-->
 
+    <script src="https://cdn.firebase.com/v0/firebase.js"></script>
     <script>
       var user = '{{session.username}}';
     </script>
@@ -151,6 +152,7 @@
     <script src="/js/leaflet.js"></script>
 
 
+    <!--
     <script src="/socket.io/socket.io.js" type="text/javascript"></script>
     <script>
       var io = io.connect();
@@ -158,20 +160,19 @@
       io.on('announce', function(data) {
         $('#conversation').append(data.message);
       });
-    </script> 
+    </script>
+    -->
 
     <script src="/js/app.js" type="text/javascript"></script>
     <script src="/js/custom.js" type="text/javascript"></script>
     <!-- <script src="js/ZeroClipboard.min.js" type="text/javascript"></script> -->
     <script>
-        var map = L.map('map').setView([-83, -100], 3);
+        var map = L.map('map').setView([-10, -100], 2);
         L.tileLayer('/img/maps/chernarus/{z}/{x}/{y}.png', {
             minZoom: 1,
             maxZoom: 7,
             tms: true
         }).addTo(map);
     </script>
-
-
   </body>
 </html>
