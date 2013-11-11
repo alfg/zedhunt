@@ -4,17 +4,16 @@
  */
 
 var db = require('../db.js');
-var io = require('socket.io');
 var moment = require('moment');
 
-exports.matches = function(req, res){
-  // Query all matches in MongoDB
-  db.Match.find({}).sort('-date').execFind(function(err, matches) {
+exports.groups = function(req, res){
+  // Query all groups in MongoDB
+  db.Match.find({}).sort('-date').execFind(function(err, groups) {
       // Set empty json object
       json = []
 
-      // Iterate matches and construct json output
-      matches.forEach(function (i) {
+      // Iterate groups and construct json output
+      groups.forEach(function (i) {
           json.push({
               id: i._id,
               //game: "/img/games/50x50/" + i.game + ".png",
@@ -26,8 +25,11 @@ exports.matches = function(req, res){
               description: i.description,
               players: "1/3",
               details: {
-                          requirements: { karma: "10+", rank: "Experienced", playstyle: i.playstyle },
-                          members: ["Alf", "Superdude"]
+                          requirements: {
+                            karma: "10+",
+                            rank: i.experience || null,
+                            playstyle: i.playstyle || null
+                          }
               }
           });
       });
@@ -38,35 +40,44 @@ exports.matches = function(req, res){
   })
 };
 
-exports.match = function(req, res){
-  var matchid = req.params.matchid;
+exports.group = function(req, res){
+  var groupid = req.params.groupid;
 
-  // Query all matches in MongoDB
-  db.Match.findOne({ _id: matchid }, function(err, match) {
+  // Query group in MongoDB
+  db.Match.findOne({ _id: groupid }, function(err, group) {
 
       // Send message if not found
-      if(!match) {
-        res.send(match + " not found.");
+      if(!group) {
+        res.send(group + " not found.");
       }
       else {
-      // Construct json object
-      var json = { id: match._id,
-                   game: "/img/games/50x50/" + match.game + ".png",
-                   type: match.type,
-                   creator: match.creator,
-                   title: match.title,
-                   date: moment(match.date).fromNow(), //i.date.toJSON(),
-                   description: match.description,
-                   players: "1/3",
-                   details: {
-                              requirements: { karma: "10+", rank: "Experienced", playstyle: match.playstyle || '' },
-                              members: ["Alf", "Superdude"]
-                   }
-      };
+        // Construct json object
+        var json = { id: group._id,
+                     game: "/img/games/50x50/" + group.game + ".png",
+                     type: group.type,
+                     creator: group.creator,
+                     title: group.title,
+                     date: moment(group.date).fromNow(), //i.date.toJSON(),
+                     description: group.description,
+                     players: "1/3",
+                     details: {
+                                requirements: {
+                                  karma: group.karma || null,
+                                  rank: group.experience || null,
+                                  playstyle: group.playstyle || null
+                                }
+                     },
+                     voip: {
+                       type: "testtype",
+                       address: "testaddress",
+                       port: "testport",
+                       password: "testpassword"
+                     }
+        };
       };
 
       // Respond as json request
-      res.json({match: json});
+      res.json({group: json});
 
   });
 };
@@ -105,13 +116,3 @@ exports.stats = function(req, res){
   res.json(stats);
 };
 
-/*
-exports.chat = function(req, res){
-var chat = exports.sio
-  .of('/chat')
-  .on('connection', function (socket) {
-    socket.emit('updatechat', 'SERVER', 'you have connnected to a room<br />')
-});
-res.json('success');
-};
-*/

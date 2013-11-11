@@ -6,7 +6,7 @@ var util = require('util');
 var db = require('../db.js');
 var bcrypt = require('bcrypt');
 
-exports.createMatch = function(req, res){
+exports.createGroup = function(req, res){
   var platform = req.param('platform');
   var type = req.param('type');
   var game = req.param('game');
@@ -14,6 +14,7 @@ exports.createMatch = function(req, res){
   var desc = req.param('desc');
   var creator = req.param('creator');
   var playstyle = req.param('playstyle');
+  var experience = req.param('experience');
 
   var now = new Date();
   var m = new db.Match({ platform: platform,
@@ -23,7 +24,8 @@ exports.createMatch = function(req, res){
                          title: title,
                          date: now,
                          description: desc,
-                         playstyle: playstyle });
+                         playstyle: playstyle,
+                         experience: experience });
 
   m.save(function(error, data) {
     if (error) {
@@ -51,6 +53,7 @@ exports.login = function(req, res){
 
         // If user exists, lets check password
         var checkHash = bcrypt.compareSync(password, user.password);
+        console.log(checkHash);
       
         // If password is true, set session and redirect
         if (checkHash) {

@@ -1,5 +1,5 @@
 /*
- * MatchMoblin - A social gaming and matchmaking platform.
+ * ZedHunt - Squad Matchmaking for DayZ.
  * Powered by Express.js, MongoDB, and Knockout.js.
  *
  * Author: Alf
@@ -27,13 +27,14 @@ function HomeViewModel() {
     // All arbitrary observables
     self.selectedPage = ko.observable();
     self.selectedHeaderLink = ko.observable();
-    self.selectedMatch = ko.observable();
+    self.selectedGroup = ko.observable();
     self.findData = ko.observable();
     self.profileData = ko.observable();
     self.selectedDetails = ko.observable();
     self.selectedNode = ko.observable();
     self.selectedData = ko.observable();
     self.gamersOnline = ko.observable();
+    self.usersInRoom = ko.observable();
 
     // Registration/Login observable forms
     self.registerErrors = ko.observable();
@@ -62,16 +63,16 @@ function HomeViewModel() {
         
         return userCount;
     });
-    self.loadDetails = function(node) { 
+    self.loadDetails = function(node) {
         /* When clicking a node, redirect to node's url by id */
 
         location.hash = '#/find/' + node.id;
     };
-    self.refreshMatches = function(event) {
-        /* Refresh matches when 'Refresh' button is clicked */
+    self.refreshGroups = function(event) {
+        /* Refresh groups when 'Refresh' button is clicked */
 
-        // Refresh matches array by updating model with a fresh get request
-        $.getJSON("/api/matches/", self.findData);
+        // Refresh groups array by updating model with a fresh get request
+        $.getJSON("/api/groups/", self.findData);
     };
     self.copyURL = function(event) {
         /* Copy URL to clipboard when link input text is clicked */
@@ -79,19 +80,19 @@ function HomeViewModel() {
         clip.setText("asdfasdfasd");
         alert("Copied to clipboard");
     };
-    self.joinMatch = function(event) {
+    self.joinGroup = function(event) {
         /* Join match button on node */
 
         //alert(event.id);
-        location.hash = '#/match/' + event.id;
-        self.selectedMatch("#/match/" + event.id);
+        location.hash = '#/group/' + event.id;
+        self.selectedGroup("#/group/" + event.id);
     };
-    self.leaveMatch = function(event) {
-      /* Leave match button on match view */
+    self.leaveGroup = function(event) {
+      /* Leave group button on match view */
 
       room = $('#room').val();
       location.hash = '#/find/';
-      self.selectedMatch(null);
+      self.selectedGroup(null);
     };
     self.sendMessage = function(formElement) {
         /* Sends chat messages in chatrooms */
@@ -103,27 +104,27 @@ function HomeViewModel() {
         $('#chat-message').val('');
         //$('#conversation').scrollTop($('#conversation')[0].scrollHeight);
     };
-    self.createMatch = function(name) {
-        /* Post request for when creating a match */
+    self.createGroup = function(name) {
+        /* Post request for when creating a group */
 
         var platform = $('#input-platform a.btn.active').text();
         var type = $('#input-type a.btn.active').text();
-        var game = $('#games-list').val();
         var title = $('#input-title').val();
         var desc = $('#input-description').val();
         var creator = name; //TODO Grab name from session
         var playstyle = $('#play-style').val();
+        var experience = $('#input-experience').val();
 
         $.ajax({
             type: "POST",
-            url: "/match/create",
+            url: "/group/create",
             data: { platform: platform,
                     type: type,
-                    game: game,
                     title: title,
                     desc: desc,
                     creator: creator,
-                    playstyle: playstyle }
+                    playstyle: playstyle,
+                    experience: experience }
         
             }).done(function (msg) {
               if (msg.errors) {
@@ -134,8 +135,8 @@ function HomeViewModel() {
               }
               else
               {
-                location.hash = '#/match/' + msg;
-                self.selectedMatch("#/match/" + msg);
+                location.hash = '#/group/' + msg;
+                self.selectedGroup("#/group/" + msg);
               }
             });
 
@@ -203,7 +204,7 @@ function HomeViewModel() {
         this.get('#/find', function() {
             self.selectedPage('find');
             self.selectedHeaderLink('find');
-            $.get("/api/matches/", self.findData);
+            $.get("/api/groups/", self.findData);
         });
         this.get('#/find/:id', function() {
 
@@ -215,20 +216,33 @@ function HomeViewModel() {
             var id = this.params['id'];
             self.selectedNode(id);
 
-            // Only fire GET request if matches array have been loaded
-            if (!self.matchesLoaded) {
-            $.getJSON("/api/matches/", function(matches) {
-                self.findData(matches);
+            // Only fire GET request if groups array have been loaded
+            if (!self.groupsLoaded) {
+            $.getJSON("/api/groups/", function(groups) {
+                self.findData(groups);
 
-                // Set matchesLoaded so json request is not made again
-                self.matchesLoaded = true;
+                // Set groupsLoaded so json request is not made again
+                self.groupsLoaded = true;
             });
             }
 
             // GET selected match json
-            $.getJSON("/api/match/" + id, function(data) { 
-                self.selectedData(data.match);
+            $.getJSON("/api/group/" + id, function(data) {
+                self.selectedData(data.group);
             });
+
+            // GET users in group
+            var usersOnline = [];
+            var buildURL = FirebaseChatRoomUrl + id + "/users.json"
+            $.getJSON(buildURL, function(data) {
+              var keys = Object.keys(data);
+              for (var key in data) {
+                usersOnline.push({ key: key, value: data[key] });
+              }
+              self.usersInRoom(usersOnline);
+              testdata = usersOnline;
+            });
+
         });
         this.get('#/create', function() {
 
@@ -239,16 +253,16 @@ function HomeViewModel() {
             // Enable select2 on Create page
             $('#games-list').select2();
         });
-        this.get('#/match/:id', function() {
+        this.get('#/group/:id', function() {
             var id = this.params['id'];
 
             // Switch to Create view and update dom
-            self.selectedPage('match');
-            self.selectedHeaderLink('match');
+            self.selectedPage('group');
+            self.selectedHeaderLink('group');
 
             // GET selected match json
-            $.getJSON("/api/match/" + id, function(data) { 
-                self.selectedData(data.match);
+            $.getJSON("/api/group/" + id, function(data) {
+                self.selectedData(data.group);
             });
 
             // Add firebase callback for messages stored and added
@@ -275,6 +289,20 @@ function HomeViewModel() {
                     lastOnlineRef.onDisconnect().set(Firebase.ServerValue.TIMESTAMP);
                 }
             });
+
+            // GET users in group
+            var usersOnline = [];
+            var buildURL = FirebaseChatRoomUrl + id + "/users.json"
+            $.getJSON(buildURL, function(data) {
+              var keys = Object.keys(data);
+              for (var key in data) {
+                usersOnline.push({ key: key, value: data[key] });
+              }
+              self.usersInRoom(usersOnline);
+              testdata = usersOnline;
+              jsondata = data;
+            });
+
 
             messagesRef.limit(10).on('child_added', function (snapshot) {
               var message = snapshot.val();

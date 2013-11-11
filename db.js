@@ -23,7 +23,8 @@ var matchSchema = mongoose.Schema({
     title: { type: String, required: true },
     date: { type: Date, required: true },
     description: String,
-    playstyle: { type: String, required: true }
+    playstyle: { type: String, required: true },
+    experience: { type: String, required: true }
 });
 var Match = mongoose.model('Match', matchSchema)
 module.exports.Match = Match;

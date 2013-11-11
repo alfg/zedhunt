@@ -14,7 +14,7 @@
  */
 
 // Module dependencies
-var express = require('express.io')
+var express = require('express')
   , expressValidator = require('express-validator')
   , routes = require('./routes')
   , user = require('./routes/user')
@@ -23,63 +23,8 @@ var express = require('express.io')
   , usersOnline = require('./util/usersOnline')
   , http = require('http')
   , path = require('path')
-  //, server = http.createServer(express)
-  //, io = require('socket.io')
 
 var app = express();
-/*
-var s = http.createServer(app);
-var sio = io.listen(s);
-s.listen(3000);
-*/
-
-app.http().io()
-
-app.io.configure(function () {
-    app.io.set('transports', ['xhr-polling']);
-    app.io.set('polling duration', 10);
-    app.io.set('log level', 1);
-});
-
-app.io.on('disconnect', function() {
-  console.log('someone dc1');
-})
-
-app.io.on('connection', function(socket) {
-  console.log('someone connected');
-  socket.on('disconnect', function() {
-    console.log('someone disconnected');
-  })
-})
-
-app.io.route('ready', function(req) {
-    var rooms = req.socket.manager.roomClients[req.socket.id];
-    for(var room in rooms) {
-      req.socket.leave(room);
-    }
-    console.log(rooms);
-    console.log('user joined room ' + req.data.room);
-    req.io.join(req.data.room);
-    req.io.room(req.data.room).broadcast('announce', {
-        message: '<strong>' + req.data.user + '</strong>' + ' has joined.<br />'
-    });
-})
-
-app.io.route('leave', function(req) {
-  req.io.room(req.data.room).broadcast('announce', {
-    message: '<strong>' + req.data.user + '</strong>' + ' has left.<br />'
-  });
-  req.io.leave(req.data.room);
-})
-
-app.io.route('message', function(req) {
-    req.io.join(req.data.room);
-    app.io.room(req.data.room).broadcast('announce', {
-        message: '<strong>' + req.data.user + '</strong>: ' + req.data.msg
-    });
-})
-app.listen(3000);
-
 
 app.configure(function(){
   app.set('port', process.env.PORT || 3000);
@@ -90,25 +35,9 @@ app.configure(function(){
   app.use(express.favicon());
   app.use(express.logger('dev'));
   app.use(express.bodyParser());
-  app.use(expressValidator({
-    errorFormatter: function(param, msg, value) {
-        var namespace = param.split('.')
-        , root    = namespace.shift()
-        , formParam = root;
-
-      while(namespace.length) {
-        formParam += '[' + namespace.shift() + ']';
-      }
-      return {
-        param : formParam,
-        msg   : msg,
-        value : value
-      };
-    }
-  }));
+  app.use(expressValidator());
   app.use(express.methodOverride());
   app.use(express.cookieParser('your secret here'));
-  //app.use(express.session()); //cookie sessions for now
   app.use(express.cookieSession());
   app.use(app.router);
   app.use(require('less-middleware')({ src: __dirname + '/public' }));
@@ -126,41 +55,20 @@ app.configure('development', function(){
   app.use(express.errorHandler());
 });
 
-
 app.get('/', locals, routes.checkAuth, routes.index);
 app.get('/users', user.list);
-app.get('/api/matches', api.matches);
-app.get('/api/match/:matchid', api.match);
+app.get('/api/groups', api.groups);
+app.get('/api/group/:groupid', api.group);
 app.get('/api/profile/:username', api.profile);
 app.get('/api/stats', usersOnline.trackUsers, usersOnline.usersOnline, api.stats);
-//app.get('/api/chat/:room', chat);
 app.get('/register', routes.register);
 app.get('/login', routes.login);
 app.get('/logout', controllers.logout);
 
 app.post('/login', controllers.login);
-app.post('/match/create', controllers.createMatch);
+app.post('/group/create', controllers.createGroup);
 app.post('/register', controllers.register);
 
-
-/*
-sio.sockets.on('connection', function (socket) {
-  sio.sockets.emit('updatechat', '<br />SERVER', 'Someone has connected.');
-
-  socket.on('chat', function (data) {
-    sio.sockets.emit('updatechat', '<br />Username', data.msg);
-  });
-});
-
-var chat = function(req, res) {
-    res.render('find');
-}
-app.get('/match', chat);
-*/
-
-
-/*
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
 });
-*/

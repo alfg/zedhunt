@@ -418,7 +418,7 @@ a:visited {
 }
 
 /*
- * Create Content */
+ * Create Group */
 #create-match {
 }
 #create-match .title,
@@ -435,6 +435,16 @@ a:visited {
 
 #create-match #create-error {
     margin-left: 180px;
+}
+
+#create-match #voip-options {
+    width: 120px;
+}
+#create-match #voip-address {
+    width: 110px;
+}
+#create-match #voip-port {
+    width: 50px;
 }
 
 /*

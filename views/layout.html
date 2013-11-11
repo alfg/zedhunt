@@ -65,7 +65,7 @@
         <ul>
             <li data-bind="css: { selected: selectedHeaderLink() == 'find' }"><i class="icon-search"></i><a href="#/find">Find</a></li>
             <li data-bind="css: { selected: selectedHeaderLink() == 'create' }"><i class="icon-cog"></i><a href="#/create">Create</a></li>
-            <li data-bind="css: { selected: selectedHeaderLink() == 'match' }, visible: selectedMatch()"><i class="icon-cogs"></i><a data-bind="attr: { href: selectedMatch() }" href="#/match/" >Match</a></li>
+            <li data-bind="css: { selected: selectedHeaderLink() == 'group' }, visible: selectedGroup()"><i class="icon-cogs"></i><a data-bind="attr: { href: selectedGroup() }" href="#/match/" >Group</a></li>
             <!-- <li><i class="icon-group"></i><a data-bind="css: { selected: selectedHeaderLink() == 'friends' }" href="#/profile/{{session.username}}/friends">Friends</a></li>
             <li><i class="icon-trophy"></i><a data-bind="css: { selected: selectedHeaderLink() == 'trophies' }" href="#/profile/{{session.username}}/trophies">Trophies</a></li> -->
             <li class="pull-right"><span>Survivors Online: <span class="strong" data-bind="text: gamersOnline" </span></li>
