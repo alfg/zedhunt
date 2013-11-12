@@ -34,7 +34,7 @@ function HomeViewModel() {
     self.selectedNode = ko.observable();
     self.selectedData = ko.observable();
     self.gamersOnline = ko.observable();
-    self.usersInRoom = ko.observable();
+    self.usersInRoom = ko.observableArray();
 
     // Registration/Login observable forms
     self.registerErrors = ko.observable();
@@ -231,16 +231,14 @@ function HomeViewModel() {
                 self.selectedData(data.group);
             });
 
-            // GET users in group
-            var usersOnline = [];
-            var buildURL = FirebaseChatRoomUrl + id + "/users.json"
-            $.getJSON(buildURL, function(data) {
-              var keys = Object.keys(data);
-              for (var key in data) {
-                usersOnline.push({ key: key, value: data[key] });
+            var userListRef = new Firebase(FirebaseChatRoomUrl + id + '/users');
+            userListRef.on("value", function(snapshot) {
+              var users = [];
+              var user = snapshot.val();
+              for (var key in user) {
+                users.push({ key: key, value: user[key] });
               }
-              self.usersInRoom(usersOnline);
-              testdata = usersOnline;
+              self.usersInRoom(users);
             });
 
         });
@@ -268,11 +266,13 @@ function HomeViewModel() {
             // Add firebase callback for messages stored and added
             var messagesRef = new Firebase(FirebaseChatRoomUrl + id + '/messages');
             var onlineRef = new Firebase(FirebaseChatRoomUrl + id + '/users/' + user + '/online');
+            var userListRef = new Firebase(FirebaseChatRoomUrl + id + '/users');
 
             // stores the timestamp of my last disconnect (the last time I was seen online)
             var lastOnlineRef = new Firebase(FirebaseChatRoomUrl + id + '/users/' + user + '/lastOnline');
 
             var connectedRef = new Firebase(FirebaseUrl + '/.info/connected');
+
             connectedRef.on('value', function(snap) {
                 if (snap.val() === true) {
                     // We're connected (or reconnected)! Do anything here that should happen only if online (or on reconnect)
@@ -290,25 +290,21 @@ function HomeViewModel() {
                 }
             });
 
-            // GET users in group
-            var usersOnline = [];
-            var buildURL = FirebaseChatRoomUrl + id + "/users.json"
-            $.getJSON(buildURL, function(data) {
-              var keys = Object.keys(data);
-              for (var key in data) {
-                usersOnline.push({ key: key, value: data[key] });
-              }
-              self.usersInRoom(usersOnline);
-              testdata = usersOnline;
-              jsondata = data;
-            });
 
-
-            messagesRef.limit(10).on('child_added', function (snapshot) {
+            messagesRef.limit(20).on('child_added', function (snapshot) {
               var message = snapshot.val();
               $('<div/>').text(message.text).prepend($('<em/>')
                 .text(message.name+': ')).appendTo($('#messages'));
-              //$('#messages')[0].scrollTop = $('#messages')[0].scrollHeight;
+              $('#messages')[0].scrollTop = $('#messages')[0].scrollHeight;
+            });
+
+            userListRef.on("value", function(snapshot) {
+              var users = [];
+              var user = snapshot.val();
+              for (var key in user) {
+                users.push({ key: key, value: user[key] });
+              }
+              self.usersInRoom(users);
             });
         });
         this.get('#/profile/:name/friends', function() {

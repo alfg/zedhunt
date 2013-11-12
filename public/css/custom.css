@@ -382,7 +382,7 @@ a:visited {
 #infobox .share-url {
     background: #5A5A5A;
     color: #EAEAEA;
-    margin-bottom: 10px;
+    margin-bottom: 4px;
 }
 #infobox .add-on {
     background-color: #3D3D3D;
@@ -415,6 +415,20 @@ a:visited {
 #infobox input {
     background-color: #1A1A1A;
     border: 1px solid gray;
+}
+#infobox .icon-circle {
+    font-size: 10px;
+    vertical-align: middle;
+}
+#infobox .icon-circle.green {
+    color: green;
+}
+#infobox .icon-circle.red {
+    color: red;
+}
+#infobox .offline {
+    color: #555;
+    font-style: italic;
 }
 
 /*
@@ -500,7 +514,7 @@ a:visited {
 }
 #view-match #conversation,
 #view-match #messages {
-    max-height: 210px;
+    max-height: 420px;
     overflow: auto;
 }
 

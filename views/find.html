@@ -78,7 +78,12 @@
                         <!-- /ko -->
                         <tr class="gray-bg"><th><i class="icon-group"></i> <span>Members</span></th></tr>
                         <!-- ko foreach: $root.usersInRoom -->
-                        <tr><td><span data-bind="text: $data.key"></span><span data-bind="text: $data.value.online"></span></td></tr>
+                        <tr>
+                            <td>
+                                <span data-bind="text: $data.key"></span>
+                                <i class="icon-circle icon-small" data-bind="visible: $data.value.online"></i>
+                            </td>
+                        </tr>
                         <!-- /ko -->
                       </tbody>
                     </table>
@@ -232,20 +237,21 @@
                   <h6 data-bind="text: 'Created by&nbsp;' + creator + '&nbsp;' + date"></h6>
 
                   <button class="btn btn-small btn-danger" data-bind="click: $root.leaveGroup">Leave Group</button>
+                  <button class="btn btn-small btn-info" data-bind="visible: creator === user, click: $root.editGroup">Edit</button>
                   <hr />
                   
-                  <div id="url" class="input-prepend">
+                  <div id="url" class="input-prepend" data-bind="tooltip: { title: 'Share this page!', placement: 'left' }">
                     <span class="add-on"><i class="icon-link"></i></span>
                     <input class="share-url span11" type="text" data-bind="attr: { value: 'http://zedhunt.com/#/find/' + id }">
                   </div>
+                  <div id="server" class="input-prepend" data-bind="tooltip: { title: 'Server Information', placement: 'left' }">
+                      <span class="add-on"><i class="icon-tasks"></i></span>
+                      <input class="share-url span11" type="text" value="123.123.123.123:1234">
+                  </div>
 
                   <table class="table">
-                    <thead>
-                      <tr>
-                        <th class="gray-bg"><i class="icon-file-alt"></i> <span>Description</span></th>
-                      </tr>
-                    </thead>
                     <tbody>
+                      <tr><th class="gray-bg"><i class="icon-file-alt"></i> <span>Description</span></th></tr>
                       <tr><td><p data-bind="text: description"></p></td></tr>
                       <tr class="gray-bg"><th><i class="icon-check"></i> <span>Requirements</span></th></tr>
                       <tr><td data-bind="text: 'Karma: ' + details.requirements.karma, visible: details.requirements.karma != null"></td></tr>
@@ -253,7 +259,12 @@
                       <tr><td data-bind="text: 'Play Style: ' + details.requirements.playstyle"></td></tr>
                       <tr class="gray-bg"><th><i class="icon-group"></i> <span>Members</span></th></tr>
                       <!-- ko foreach: $root.usersInRoom -->
-                      <tr><td><span data-bind="text: $data.key"></span><span data-bind="text: $data.value.online"></span></td></tr>
+                      <tr>
+                          <td>
+                              <span data-bind="text: $data.key, css: $data.value.online ? '' : 'offline' "></span>
+                              <i class="icon-circle icon-small" data-bind="css: $data.value.online ? 'green' : 'red', attr: { title: $data.value.online ? 'online' : 'offline'}"></i>
+                          </td>
+                      </tr>
                       <!-- /ko -->
                       <tr class="gray-bg"><th><i class="icon-group"></i> <span data-bind="text: voip.type"></span></th></tr>
                       <tr><td data-bind="text: 'Address: ' + voip.address"></td></tr>

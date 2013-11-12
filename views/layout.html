@@ -72,9 +72,7 @@
         </ul>
     </nav>
 
-
     {{{ yield }}}
-
 
     <footer class="container">
         <ul>
@@ -84,84 +82,15 @@
         </ul>
     </footer>
 
-    <!-- Register Modal -->
-    <form data-bind="submit: registerUser">
-    <div id="register-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-        <h3 id="myModalLabel">Register</h3>
-      </div>
-      <div class="modal-body">
-        <div id="register-form" class="form-horizontal">
-          <div class="control-group">
-            <label class="control-label" for="RegisterUsername">Username</label>
-            <div class="controls">
-              <input type="text" id="RegisterUsername" placeholder="Username" data-bind="value: regUsername">
-            </div>
-          </div>
-          <div class="control-group">
-            <label class="control-label" for="RegisterEmail">Email (optional)</label>
-            <div class="controls">
-              <input type="text" id="RegisterEmail" placeholder="Email" data-bind="value: regEmail">
-            </div>
-          </div>
-          <div class="control-group">
-            <label class="control-label" for="RegisterPassword">Password</label>
-            <div class="controls">
-              <input type="password" id="RegisterPassword" placeholder="Password" data-bind="value: regPassword">
-            </div>
-          </div>
-          <div class="control-group">
-            <label class="control-label" for="RegisterPasswordConfirm">Confirm Password</label>
-            <div class="controls">
-              <input type="password" id="RegisterConfirmPassword" placeholder="Confirm Password" data-bind="value: regConfirmPassword">
-            </div>
-          </div>
-          <div class="control-group">
-            <label class="control-label" for="inputSteamID">Steam ID (optional)</label>
-            <div class="controls">
-              <input type="text" id="inputSteamID" placeholder="Steam ID" data-bind="value: regSteamID">
-            </div>
-          </div>
-          <div class="control-group">
-            <div class="controls">
-              <button type="submit" class="btn btn-primary">Register</button>
-            </div>
-          </div>
-          <div class="control-group">
-            <div class="controls">
-              <ul data-bind="foreach: registerErrors">
-                <li data-bind="text: $data.msg"></li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-      </div>
-    </div> <!-- /register-modal -->
-
     <script src="http://code.jquery.com/jquery-1.8.2.js"></script>
     <script src="/js/bootstrap.min.js"></script>
     <script src="/js/jquery.validate.min.js"></script>
     <script src="/js/select2.js" type="text/javascript"></script>
     <script src="/js/sammy.js" type="text/javascript"></script>
     <script src="/js/knockout-2.2.0.js" type="text/javascript"></script>
+    <script src="/js/knockout-bootstrap.min.js" type="text/javascript"></script>
     <script src="/js/moment.min.js" type="text/javascript"></script>
     <script src="/js/leaflet.js"></script>
-
-
-    <!--
-    <script src="/socket.io/socket.io.js" type="text/javascript"></script>
-    <script>
-      var io = io.connect();
-      
-      io.on('announce', function(data) {
-        $('#conversation').append(data.message);
-      });
-    </script>
-    -->
 
     <script src="/js/app.js" type="text/javascript"></script>
     <script src="/js/custom.js" type="text/javascript"></script>
