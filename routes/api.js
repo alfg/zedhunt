@@ -8,7 +8,7 @@ var moment = require('moment');
 
 exports.groups = function(req, res){
   // Query all groups in MongoDB
-  db.Match.find({}).sort('-date').execFind(function(err, groups) {
+  db.Match.find({}).sort('-date').exec(function(err, groups) {
       // Set empty json object
       json = []
 
