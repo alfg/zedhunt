@@ -18,11 +18,13 @@
  */
 
 FirebaseUrl = 'https://zombies.firebaseio.com/';
-FirebaseChatRoomUrl = 'https://zombies.firebaseio.com/chat/room/';
+FirebaseChatRoomUrl = 'https://zombies.firebaseio.com/chat/rooms/';
+FirebaseUsersUrl = 'https://zombies.firebaseio.com/chat/users/';
 
 function HomeViewModel() {
     // Data
     var self = this;
+    loadedUsers = [];
 
     // All arbitrary observables
     self.selectedPage = ko.observable();
@@ -34,6 +36,7 @@ function HomeViewModel() {
     self.selectedNode = ko.observable();
     self.selectedData = ko.observable();
     self.gamersOnline = ko.observable();
+    self.usersInRoomCount = ko.observable();
     self.usersInRoom = ko.observableArray();
 
     // Registration/Login observable forms
@@ -60,9 +63,24 @@ function HomeViewModel() {
                 userCount = json.usersonline;
             }
         });
-        
         return userCount;
     });
+  /*
+    self.usersInRoomCount = function(data) {
+      var usersInRoom = new Firebase(FirebaseChatRoomUrl + data.id + '/users/');
+      usersInRoom.on("value", function(snapshot) {
+        var count = snapshot.numChildren();
+        console.log(count);
+      });
+      return 'test';
+    };
+    */
+    self.usersInRoomCount = function(node) {
+      console.log(node.id);
+      //var id = node.toString();
+      console.log(Object.size(loadedUsers[node.id]));
+      return Object.size(loadedUsers[node.id]);;
+    }
     self.loadDetails = function(node) {
         /* When clicking a node, redirect to node's url by id */
 
@@ -205,6 +223,10 @@ function HomeViewModel() {
             self.selectedPage('find');
             self.selectedHeaderLink('find');
             $.get("/api/groups/", self.findData);
+            $.get(FirebaseUsersUrl + ".json", function(users) {
+              loadedUsers = users;
+            });
+
         });
         this.get('#/find/:id', function() {
 
@@ -231,7 +253,7 @@ function HomeViewModel() {
                 self.selectedData(data.group);
             });
 
-            var userListRef = new Firebase(FirebaseChatRoomUrl + id + '/users');
+            var userListRef = new Firebase(FirebaseUsersUrl + id);
             userListRef.on("value", function(snapshot) {
               var users = [];
               var user = snapshot.val();
@@ -265,11 +287,14 @@ function HomeViewModel() {
 
             // Add firebase callback for messages stored and added
             var messagesRef = new Firebase(FirebaseChatRoomUrl + id + '/messages');
-            var onlineRef = new Firebase(FirebaseChatRoomUrl + id + '/users/' + user + '/online');
-            var userListRef = new Firebase(FirebaseChatRoomUrl + id + '/users');
 
-            // stores the timestamp of my last disconnect (the last time I was seen online)
-            var lastOnlineRef = new Firebase(FirebaseChatRoomUrl + id + '/users/' + user + '/lastOnline');
+            //var onlineRef = new Firebase(FirebaseChatRoomUrl + id + '/users/' + user + '/online');
+            //var userListRef = new Firebase(FirebaseChatRoomUrl + id + '/users');
+            //var lastOnlineRef = new Firebase(FirebaseChatRoomUrl + id + '/users/' + user + '/lastOnline');
+
+            var onlineRef = new Firebase(FirebaseUsersUrl + id + '/' + user + '/online');
+            var userListRef = new Firebase(FirebaseUsersUrl + id);
+            var lastOnlineRef = new Firebase(FirebaseUsersUrl + id + '/' + user + '/lastOnline');
 
             var connectedRef = new Firebase(FirebaseUrl + '/.info/connected');
 

@@ -10,7 +10,7 @@ exports.groups = function(req, res){
   // Query all groups in MongoDB
   db.Match.find({}).sort('-date').exec(function(err, groups) {
       // Set empty json object
-      json = []
+      var json = [];
 
       // Iterate groups and construct json output
       groups.forEach(function (i) {

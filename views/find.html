@@ -27,14 +27,15 @@
                 </div>
               </div>
               
-              <!-- Iterated Group Node -->
               <!-- ko with: findData -->
               <!-- ko foreach: groups -->
               <section class="node">
                 <div class="inner-node" data-bind="click: $root.loadDetails, css: { selected: $root.selectedNode() == id }">
                     <div class="game-icon pull-left"><img data-bind="attr: {src: game }" /></div>
                     <div class="pull-right">
-                        <div class="node-players pull-left"><span data-bind="text: players"></span></div>
+                        <div class="node-players pull-left">
+                            <span data-bind="text: $root.usersInRoomCount($data)"></span>
+                        </div>
                         <div class="node-actions pull-right">
                             <button class="btn btn-small btn-success">View</button>
                         </div>
@@ -80,8 +81,8 @@
                         <!-- ko foreach: $root.usersInRoom -->
                         <tr>
                             <td>
-                                <span data-bind="text: $data.key"></span>
-                                <i class="icon-circle icon-small" data-bind="visible: $data.value.online"></i>
+                                <span data-bind="text: $data.key, css: $data.value.online ? '' : 'offline' "></span>
+                                <i class="icon-circle icon-small" data-bind="css: $data.value.online ? 'green' : 'red', attr: { title: $data.value.online ? 'online' : 'offline'}"></i>
                             </td>
                         </tr>
                         <!-- /ko -->
