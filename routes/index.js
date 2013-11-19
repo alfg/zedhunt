@@ -14,7 +14,22 @@ exports.checkAuth = function(req, res, next) {
 }
 
 exports.index = function(req, res){
+  res.redirect('/find');
+};
+
+exports.find = function(req, res){
   res.render('find', { title: 'Zedhunt Portal' });
+};
+exports.create = function(req, res){
+  res.render('create', { title: 'Zedhunt Portal' });
+};
+
+exports.group = function(req, res){
+  res.render('group', { title: 'Zedhunt Portal' });
+};
+
+exports.profile = function(req, res){
+  res.render('profile', { title: 'Zedhunt Portal' });
 };
 
 exports.login = function(req, res){

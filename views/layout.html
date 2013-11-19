@@ -53,7 +53,7 @@
             {{#session.username}}
             <ul>
                 <li>Logged in as&nbsp;<strong>{{session.username}}</strong></li>
-                <li><a data-bind="css: { selected: selectedHeaderLink() == 'profile' }" href="#/profile/{{session.username}}">Profile</a></li>
+                <li><a data-bind="css: { selected: selectedHeaderLink() == 'profile' }" href="/profile/#/{{session.username}}">Profile</a></li>
                 <!-- <li><a data-bind="css: { selected: selectedHeaderLink() == 'mygames' }" href="#/profile/{{session.username}}/mygames">My Games</a></li> -->
                 <li><a href="/logout">Logout</a></li>
             </ul> 
@@ -63,16 +63,18 @@
     
     <nav id="header-links" class="container">
         <ul>
-            <li data-bind="css: { selected: selectedHeaderLink() == 'find' }"><i class="icon-search"></i><a href="#/find">Find</a></li>
-            <li data-bind="css: { selected: selectedHeaderLink() == 'create' }"><i class="icon-cog"></i><a href="#/create">Create</a></li>
-            <li data-bind="css: { selected: selectedHeaderLink() == 'group' }, visible: selectedGroup()"><i class="icon-cogs"></i><a data-bind="attr: { href: selectedGroup() }" href="#/match/" >Group</a></li>
+            <li data-bind="css: { selected: selectedHeaderLink() == 'find' }"><i class="icon-search"></i><a href="/">Find</a></li>
+            <li data-bind="css: { selected: selectedHeaderLink() == 'create' }"><i class="icon-cog"></i><a href="/create">Create</a></li>
+            <li data-bind="css: { selected: selectedHeaderLink() == 'group' }, visible: selectedHeaderLink() == 'group'"><i class="icon-cogs"></i><a data-bind="attr: { href: selectedGroup() }" href="/match/" >Group</a></li>
             <!-- <li><i class="icon-group"></i><a data-bind="css: { selected: selectedHeaderLink() == 'friends' }" href="#/profile/{{session.username}}/friends">Friends</a></li>
             <li><i class="icon-trophy"></i><a data-bind="css: { selected: selectedHeaderLink() == 'trophies' }" href="#/profile/{{session.username}}/trophies">Trophies</a></li> -->
             <li class="pull-right"><span>Survivors Online: </span><span class="strong" data-bind="text: gamersOnline"></span></li>
         </ul>
     </nav>
 
-    {{{ yield }}}
+    <div id="base-wrapper" class="container">
+        {{{ yield }}}
+    </div>
 
     <footer class="container">
         <ul>
@@ -83,18 +85,25 @@
     </footer>
 
     <script src="http://code.jquery.com/jquery-1.8.2.js"></script>
-    <script src="/js/bootstrap.min.js"></script>
-    <script src="/js/jquery.validate.min.js"></script>
-    <script src="/js/select2.js" type="text/javascript"></script>
-    <script src="/js/sammy.js" type="text/javascript"></script>
-    <script src="/js/knockout-2.2.0.js" type="text/javascript"></script>
-    <script src="/js/knockout-bootstrap.min.js" type="text/javascript"></script>
-    <script src="/js/moment.min.js" type="text/javascript"></script>
-    <script src="/js/leaflet.js"></script>
+    <script src="/js/lib/bootstrap.min.js"></script>
+    <script src="/js/lib/jquery.validate.min.js"></script>
+    <script src="/js/lib/select2.js" type="text/javascript"></script>
+    <script src="/js/lib/sammy.js" type="text/javascript"></script>
+    <script src="/js/lib/knockout-2.2.0.js" type="text/javascript"></script>
+    <script src="/js/lib/knockout-bootstrap.min.js" type="text/javascript"></script>
+    <script src="/js/lib/moment.min.js" type="text/javascript"></script>
+    <script src="/js/lib/leaflet.js"></script>
 
+    <!--
     <script src="/js/app.js" type="text/javascript"></script>
+    -->
+
     <script src="/js/custom.js" type="text/javascript"></script>
+
+    {{{ yield-scripts }}}
+
     <!-- <script src="js/ZeroClipboard.min.js" type="text/javascript"></script> -->
+    <!--
     <script>
         var map = L.map('map').setView([-10, -100], 2);
         L.tileLayer('/img/maps/chernarus/{z}/{x}/{y}.png', {
@@ -103,5 +112,6 @@
             tms: true
         }).addTo(map);
     </script>
+    -->
   </body>
 </html>

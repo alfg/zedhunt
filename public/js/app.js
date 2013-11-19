@@ -76,9 +76,6 @@ function HomeViewModel() {
     };
     */
     self.usersInRoomCount = function(node) {
-      console.log(node.id);
-      //var id = node.toString();
-      console.log(Object.size(loadedUsers[node.id]));
       return Object.size(loadedUsers[node.id]);;
     }
     self.loadDetails = function(node) {
@@ -143,7 +140,7 @@ function HomeViewModel() {
                     creator: creator,
                     playstyle: playstyle,
                     experience: experience }
-        
+
             }).done(function (msg) {
               if (msg.errors) {
                 console.log("error");
@@ -216,7 +213,7 @@ function HomeViewModel() {
             }
         });
     };
-    
+
     // Client-side routes and SPA views
     Sammy(function() {
         this.get('#/find', function() {
@@ -234,7 +231,7 @@ function HomeViewModel() {
             self.selectedPage('find');
             self.selectedHeaderLink('find');
 
-            // Update infobox div view with selected node 
+            // Update infobox div view with selected node
             var id = this.params['id'];
             self.selectedNode(id);
 
@@ -269,7 +266,7 @@ function HomeViewModel() {
             // Switch to Create view and update dom
             self.selectedPage('create');
             self.selectedHeaderLink('create');
-            
+
             // Enable select2 on Create page
             $('#games-list').select2();
         });
@@ -404,7 +401,7 @@ function HomeViewModel() {
             // Set selected page and link to apply css underline
             self.selectedHeaderLink('privacy');
         });
-                
+
         // Redirect index to #/find
         this.get('/', function() { this.redirect('#/find') });
 
@@ -413,7 +410,7 @@ function HomeViewModel() {
             return (false);
         };
     }).run();
-    
+
 };
 
 // Apply all KO bindings to Model
