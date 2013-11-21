@@ -18,13 +18,19 @@ db.once('open', function callback() {
  * MongoDB Schema and Models */
 
 var matchSchema = mongoose.Schema({
-    type: { type: String, required: true },
+    date_created: { type: Date, required: true },
     creator: { type: String, required: true },
-    title: { type: String, required: true },
-    date: { type: Date, required: true },
-    description: String,
+    game: { type: String, required: true },
+    size: { type: Number, required: true },
     playstyle: { type: String, required: true },
-    experience: { type: String, required: true }
+    title: { type: String, required: true },
+    description: String,
+    experience: { type: String, required: true },
+    server_address: { type: String },
+    voip_type: { type: String, required: false },
+    voip_address: { type: String, required: false },
+    voip_password: { type: String, required: false },
+    password: { type: String, required: false }
 });
 var Match = mongoose.model('Match', matchSchema)
 module.exports.Match = Match;

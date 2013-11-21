@@ -451,11 +451,11 @@ a:visited {
     margin-left: 180px;
 }
 
-#create-match #voip-options {
+#create-match #voip-type {
     width: 120px;
 }
 #create-match #voip-address {
-    width: 110px;
+    width: 140px;
 }
 #create-match #voip-port {
     width: 50px;

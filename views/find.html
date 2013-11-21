@@ -33,14 +33,14 @@
                 <div class="game-icon pull-left"><img data-bind="attr: {src: game }" /></div>
                 <div class="pull-right">
                     <div class="node-players pull-left">
-                        <span data-bind="text: $root.usersInRoomCount($data)"></span>
+                        <span data-bind="text: $root.usersInRoomCount($data) + '/' + players"></span>
                     </div>
                     <div class="node-actions pull-right">
                         <button class="btn btn-small btn-success">View</button>
                     </div>
                 </div>
                 <div class="node-description">
-                    <span class="node-desc-text1"><span data-bind="text: type" class="node-desc-type"></span>&nbsp;<span data-bind="text: title"></span></span>
+                    <span class="node-desc-text1"><span data-bind="text: details.requirements.playstyle" class="node-desc-type"></span>&nbsp;<span data-bind="text: title"></span></span>
                     <span class="node-desc-text2"><small data-bind="text: 'Created by&nbsp;' + creator + '&nbsp;' + date"></small></span>
                 </div>
             </div>
@@ -52,7 +52,7 @@
 
         <div id="right-column" class="span4" data-bind="css: {fadeIn: selectedData}" style="opacity: 0;">
             <div id="infobox" data-bind="with: selectedData">
-                <h4><span class="desc-type" data-bind="text: type"></span><span data-bind="text: title"></span></h4>
+                <h4><span class="desc-type" data-bind="text: details.requirements.playstyle"></span><span data-bind="text: title"></span></h4>
                 <h6 data-bind="text: 'Created by&nbsp;' + creator + '&nbsp;' + date"></h6>
 
                 <button class="btn btn-large btn-block btn-danger" data-bind="click: $root.joinGroup">Join Squad</button>
@@ -76,7 +76,7 @@
                     <tr><td data-bind="visible: rank != null, text: 'Experience: ' + rank"></td></tr>
                     <tr><td data-bind="visible: playstyle != null, text: 'Play Style: ' + playstyle"></td></tr>
                     <!-- /ko -->
-                    <tr class="gray-bg"><th><i class="icon-group"></i> <span>Members</span></th></tr>
+                    <tr class="gray-bg"><th><i class="icon-group"></i> <span>Members</span> <span class="badge badge-info" data-bind="text: 'Max ' + players"></span></th></tr>
                     <!-- ko foreach: $root.usersInRoom -->
                     <tr>
                         <td>

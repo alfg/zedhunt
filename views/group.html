@@ -27,7 +27,7 @@
         </div>
         <div id="right-column" class="span4" data-bind="css: {fadeIn: selectedData}" style="opacity: 0;">
             <div id="infobox" data-bind="with: selectedData">
-                <h4><span class="desc-type" data-bind="text: type"></span><span data-bind="text: title"></span></h4>
+                <h4><span class="desc-type" data-bind="text: details.requirements.playstyle"></span><span data-bind="text: title"></span></h4>
                 <h6 data-bind="text: 'Created by&nbsp;' + creator + '&nbsp;' + date"></h6>
 
                 <button class="btn btn-small btn-danger" data-bind="click: $root.leaveGroup">Leave Group</button>
@@ -40,7 +40,7 @@
                 </div>
                 <div id="server" class="input-prepend" data-bind="tooltip: { title: 'Server Information', placement: 'left' }">
                     <span class="add-on"><i class="icon-tasks"></i></span>
-                    <input class="share-url span11" type="text" value="123.123.123.123:1234">
+                    <input class="share-url span11" type="text" data-bind="attr: { value: serverAddress }">
                 </div>
 
                 <table class="table">
@@ -49,9 +49,9 @@
                     <tr><td><p data-bind="text: description"></p></td></tr>
                     <tr class="gray-bg"><th><i class="icon-check"></i> <span>Requirements</span></th></tr>
                     <tr><td data-bind="text: 'Karma: ' + details.requirements.karma, visible: details.requirements.karma != null"></td></tr>
-                    <tr><td data-bind="text: 'Rank: ' + details.requirements.rank"></td></tr>
+                    <tr><td data-bind="text: 'Experience: ' + details.requirements.rank"></td></tr>
                     <tr><td data-bind="text: 'Play Style: ' + details.requirements.playstyle"></td></tr>
-                    <tr class="gray-bg"><th><i class="icon-group"></i> <span>Members</span></th></tr>
+                    <tr class="gray-bg"><th><i class="icon-group"></i> <span>Members</span> <span class="badge badge-info" data-bind="text: 'Max ' + players"></span></th></tr>
                     <!-- ko foreach: $root.usersInRoom -->
                     <tr>
                         <td>
@@ -60,10 +60,9 @@
                         </td>
                     </tr>
                     <!-- /ko -->
-                    <tr class="gray-bg"><th><i class="icon-group"></i> <span data-bind="text: voip.type"></span></th></tr>
-                    <tr><td data-bind="text: 'Address: ' + voip.address"></td></tr>
-                    <tr><td data-bind="text: 'Port: ' + voip.port"></td></tr>
-                    <tr><td data-bind="text: 'Password: ' + voip.password"></td></tr>
+                    <tr data-bind="visible: voip.type != 'None'" class="gray-bg"><th><i class="icon-headphones"></i> <span data-bind="text: voip.type"></span></th></tr>
+                    <tr data-bind="visible: voip.type != 'None'"><td data-bind="text: 'Address: ' + voip.address"></td></tr>
+                    <tr data-bind="visible: voip.type != 'None'"><td data-bind="text: 'Password: ' + voip.password"></td></tr>
                     </tbody>
                 </table>
 

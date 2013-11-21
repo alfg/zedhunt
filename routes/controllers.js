@@ -7,25 +7,38 @@ var db = require('../db.js');
 var bcrypt = require('bcrypt');
 
 exports.createGroup = function(req, res){
-  var platform = req.param('platform');
-  var type = req.param('type');
   var game = req.param('game');
+  var size = req.param('size');
+  var playstyle = req.param('playstyle');
   var title = req.param('title');
   var desc = req.param('desc');
-  var creator = req.param('creator');
-  var playstyle = req.param('playstyle');
+  var serverAddress = req.param('serverAddress');
   var experience = req.param('experience');
+  var voipType = req.param('voipType');
+  var voipAddress = req.param('voipAddress');
+  var voipPort = req.param('voipPort');
+  var voipPassword = req.param('voipPassword');
+  var groupPassword = req.param('groupPassword');
+  var creator = req.param('creator');
+  console.log(req.username);
 
   var now = new Date();
-  var m = new db.Match({ platform: platform,
-                         game: game,
-                         type: type,
-                         creator: creator,
-                         title: title,
-                         date: now,
-                         description: desc,
-                         playstyle: playstyle,
-                         experience: experience });
+  var m = new db.Match({
+    game: game,
+    size: size,
+    playstyle: playstyle,
+    title: title,
+    description: desc,
+    server_address: serverAddress,
+    voip_type: voipType,
+    voip_address: voipAddress,
+    voip_password: voipPassword,
+    password: groupPassword,
+    experience: experience,
+
+    date_created: now,
+    creator: creator
+  });
 
   m.save(function(error, data) {
     if (error) {

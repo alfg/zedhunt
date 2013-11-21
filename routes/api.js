@@ -17,13 +17,13 @@ exports.groups = function(req, res){
           json.push({
               id: i._id,
               //game: "/img/games/50x50/" + i.game + ".png",
-              game: "/img/games/50x50/dayz.png",
+              game: "/img/games/50x50/" + i.game + ".png",
               type: i.type,
               creator: i.creator,
               title: i.title,
-              date: moment(i.date).fromNow(), //i.date.toJSON(),
+              date: moment(i.date_created).fromNow(), //i.date.toJSON(),
               description: i.description,
-              players: "1/3",
+              players: i.size,
               details: {
                           requirements: {
                             karma: "10+",
@@ -57,9 +57,10 @@ exports.group = function(req, res){
                      type: group.type,
                      creator: group.creator,
                      title: group.title,
-                     date: moment(group.date).fromNow(), //i.date.toJSON(),
+                     date: moment(group.date_created).fromNow(), //i.date.toJSON(),
                      description: group.description,
-                     players: "1/3",
+                     serverAddress: group.server_address,
+                     players: group.size,
                      details: {
                                 requirements: {
                                   karma: group.karma || null,
@@ -68,10 +69,9 @@ exports.group = function(req, res){
                                 }
                      },
                      voip: {
-                       type: "testtype",
-                       address: "testaddress",
-                       port: "testport",
-                       password: "testpassword"
+                       type: group.voip_type || null,
+                       address: group.voip_address || null,
+                       password: group.voip_password || null
                      }
         };
       };

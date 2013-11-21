@@ -38,6 +38,7 @@ function CreateViewModel() {
     self.gamersOnline = ko.observable();
     self.usersInRoomCount = ko.observable();
     self.usersInRoom = ko.observableArray();
+    self.passwordProtectCheckbox = ko.observable(false);
 
     // Behaviours/Functions
     self.gamersOnline = ko.computed(function() {
@@ -71,24 +72,35 @@ function CreateViewModel() {
     self.createGroup = function(name) {
         /* Post request for when creating a group */
 
-        var platform = $('#input-platform a.btn.active').text();
-        var type = $('#input-type a.btn.active').text();
+        var creator = name; //TODO Grab name from session
+        var game = $('#input-game').val();
+        var size = $('#input-size').val();
+        var playstyle = $('#play-style').val();
         var title = $('#input-title').val();
         var desc = $('#input-description').val();
-        var creator = name; //TODO Grab name from session
-        var playstyle = $('#play-style').val();
+        var serverAddress = $('#server-address').val();
         var experience = $('#input-experience').val();
+        var voipType = $('#voip-type').val();
+        var voipAddress = $('#voip-address').val();
+        var voipPort = $('#voip-port').val();
+        var voipPassword = $('#voip-password').val();
+        var groupPassword = $('#group-password').val();
 
         $.ajax({
             type: "POST",
             url: "/group/create",
-            data: { platform: platform,
-                    type: type,
+            data: { game: game,
+                    size: size,
+                    playstyle: playstyle,
                     title: title,
                     desc: desc,
-                    creator: creator,
-                    playstyle: playstyle,
-                    experience: experience }
+                    serverAddress: serverAddress,
+                    experience: experience,
+                    voipType: voipType,
+                    voipAddress: voipAddress,
+                    voipPassword: voipPassword,
+                    groupPassword: groupPassword,
+                    creator: creator }
 
             }).done(function (msg) {
               if (msg.errors) {

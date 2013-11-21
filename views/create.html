@@ -6,43 +6,29 @@
                 <h4 class="title">Create a Group</h4>
                 <hr />
                 <div class="row">
-                    <div class="form-horizontal span6">
+                    <div class="form-horizontal span5">
                         <h4>Group Settings</h4>
                         <div class="control-group">
-                            <label class="control-label">Looking for group or members?</label>
+                            <label class="control-label" for="input-game">Game</label>
                             <div class="controls">
-                                <div id="input-type" class="btn-group" data-toggle="buttons-radio">
-                                    <a class="btn active">LFG</a>
-                                    <a class="btn">LFM</a>
-                                </div>
+                                <select id="input-game" name="game">
+                                    <option value="dayzmod">DayZ Mod (Vanilla)</option>
+                                </select>
                             </div>
                         </div>
                         <div class="control-group">
-                            <label class="control-label">Group Size</label>
+                            <label class="control-label" for="input-size">Group Size</label>
                             <div class="controls">
-                                <div id="input-size" class="btn-group" data-toggle="buttons-radio">
-                                    <a class="btn active">2</a>
-                                    <a class="btn">3</a>
-                                    <a class="btn">4</a>
-                                    <a class="btn">5+</a>
-                                </div>
+                                <input type="text" class="span1" id="input-size" value="4" required>
                             </div>
                         </div>
                         <div class="control-group">
-                            <label class="control-label" for="inputEmail">Play Style</label>
+                            <label class="control-label" for="play-style">Play Style</label>
                             <div class="controls">
                                 <select id="play-style" name="playstyle">
                                     <option value="survivor">Survivor</option>
                                     <option value="bandit">Bandit</option>
                                     <option value="open">Open</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="control-group">
-                            <label class="control-label" for="inputMap">Map</label>
-                            <div class="controls">
-                                <select id="maps">
-                                    <option value="chernarus">Chernarus</option>
                                 </select>
                             </div>
                         </div>
@@ -58,45 +44,59 @@
                                 <textarea id="input-description" rows="3" placeholder="Enter a full description here and additional details" name="description" required></textarea>
                             </div>
                         </div>
-                        <h4>Optional Settings</h4>
+
+                        <h4>Server Information</h4>
                         <div class="control-group">
-                            <label class="control-label" for="inputVOIP">VOIP Server Address</label>
+                            <label class="control-label" for="server-address">Server Address & Port</label>
                             <div class="controls">
-                                <select id="voip-options" class="span2" name="voip">
-                                    <option value="none">None</option>
-                                    <option value="teamspeak">TeamSpeak</option>
-                                    <option value="mumble">Mumble</option>
-                                    <option value="mumble">Ventrilo</option>
-                                </select>
-                                <input type="text" id="voip-address" class="span2" placeholder="Server Address">
-                                <input type="text" id="voip-port" class="span1" placeholder="Port">
+                                <input type="text" id="server-address" placeholder="address[:port]">
                             </div>
                         </div>
-                        <div class="control-group">
-                            <label class="control-label" for="input-password">VOIP Password</label>
-                            <div class="controls">
-                                <input type="text" id="voip-password" placeholder="Enter a password or leave blank if none">
-                            </div>
-                        </div>
-                        <div class="control-group">
-                            <label class="control-label" for="input-password">Squad Password</label>
-                            <div class="controls">
-                                <input type="text" id="input-password" placeholder="Enter a password or leave blank if none">
-                            </div>
-                        </div>
+
                         <span id="create-error" class="text-error"></span>
                     </div>
-                    <div class="form-horizontal span5">
+                    <div class="form-horizontal span6">
                         <h4>Requirements</h4>
                         <div class="control-group">
                             <label class="control-label" for="input-experience">Experience</label>
                             <div class="controls">
                                 <select id="input-experience" class="span2" name="experience">
-                                    <option value="any">Any</option>
-                                    <option value="noob">Noob</option>
-                                    <option value="intermediate">Intermediate</option>
-                                    <option value="elite">Elite</option>
+                                    <option value="Any">Any</option>
+                                    <option value="Noob">Noob</option>
+                                    <option value="Intermediate">Intermediate</option>
+                                    <option value="Elite">Elite</option>
                                 </select>
+                            </div>
+                        </div>
+                        <h4>Optional Settings</h4>
+                        <div class="control-group">
+                            <label class="control-label" for="voip-type">VOIP Server Address & Port</label>
+                            <div class="controls">
+                                <select id="voip-type" class="span2" name="voip">
+                                    <option value="None">None</option>
+                                    <option value="Teamspeak">TeamSpeak</option>
+                                    <option value="Mumble">Mumble</option>
+                                    <option value="Ventrilo">Ventrilo</option>
+                                </select>
+                                <input type="text" id="voip-address" placeholder="address[:port]">
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="voip-password">VOIP Password</label>
+                            <div class="controls">
+                                <input type="text" id="voip-password" placeholder="Enter a password or leave blank if none">
+                            </div>
+                        </div>
+                        <hr />
+                        <label class="checkbox">
+                          <input type="checkbox" data-bind="checked: passwordProtectCheckbox">
+                          Would you like to password-protect this group?
+                        </label>
+                        <br />
+                        <div class="control-group" data-bind="visible: passwordProtectCheckbox">
+                            <label class="control-label" for="group-password">Enter Password</label>
+                            <div class="controls">
+                                <input type="text" id="group-password" placeholder="Enter a password or leave blank if none">
                             </div>
                         </div>
                     </div>
