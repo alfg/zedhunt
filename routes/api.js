@@ -8,7 +8,7 @@ var moment = require('moment');
 
 exports.groups = function(req, res){
   // Query all groups in MongoDB
-  db.Match.find({}).sort('-date').exec(function(err, groups) {
+  db.Match.find({}).limit(50).sort('-date').exec(function(err, groups) {
       // Set empty json object
       var json = [];
 
@@ -16,8 +16,8 @@ exports.groups = function(req, res){
       groups.forEach(function (i) {
           json.push({
               id: i._id,
-              //game: "/img/games/50x50/" + i.game + ".png",
-              game: "/img/games/50x50/" + i.game + ".png",
+              gameIcon: "/img/games/50x50/" + i.game + ".png",
+              game: formatGame(i.game),
               type: i.type,
               creator: i.creator,
               title: i.title,
@@ -53,7 +53,8 @@ exports.group = function(req, res){
       else {
         // Construct json object
         var json = { id: group._id,
-                     game: "/img/games/50x50/" + group.game + ".png",
+                     gameIcon: "/img/games/50x50/" + group.game + ".png",
+                     game: formatGame(group.game),
                      type: group.type,
                      creator: group.creator,
                      title: group.title,
@@ -115,4 +116,18 @@ exports.stats = function(req, res){
 
   res.json(stats);
 };
+
+function formatGame(game) {
+  var title;
+  switch (game) {
+    case "dayzmod":
+      title = "DayZ Mod";
+      break;
+    default:
+      title = "DayZ"
+      break;
+  }
+  return title;
+
+}
 

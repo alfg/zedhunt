@@ -30,7 +30,7 @@
           <!-- ko foreach: groups -->
           <section class="node">
             <div class="inner-node" data-bind="click: $root.loadDetails, css: { selected: $root.selectedNode() == id }">
-                <div class="game-icon pull-left"><img data-bind="attr: {src: game }" /></div>
+                <div class="game-icon pull-left"><img data-bind="attr: {src: gameIcon }" /></div>
                 <div class="pull-right">
                     <div class="node-players pull-left">
                         <span data-bind="text: $root.usersInRoomCount($data) + '/' + players"></span>
@@ -40,7 +40,7 @@
                     </div>
                 </div>
                 <div class="node-description">
-                    <span class="node-desc-text1"><span data-bind="text: details.requirements.playstyle" class="node-desc-type"></span>&nbsp;<span data-bind="text: title"></span></span>
+                    <span class="node-desc-text1"><span data-bind="text: game" class="node-desc-type"></span>&nbsp;<span data-bind="text: title"></span></span>
                     <span class="node-desc-text2"><small data-bind="text: 'Created by&nbsp;' + creator + '&nbsp;' + date"></small></span>
                 </div>
             </div>
