@@ -3,8 +3,9 @@
  */
 
 // MongoDB import and connect
+var config = require('./config');
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://ghxst.local/zedhunt');
+mongoose.connect(config.mongodb.host);
 
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));

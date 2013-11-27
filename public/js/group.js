@@ -96,7 +96,7 @@ function GroupViewModel() {
 
     // Client-side routes and SPA views
     Sammy(function() {
-        this.get('#:id', function() {
+        this.get('#/:id', function() {
             var id = this.params['id'];
 
             // Switch to Create view and update dom
@@ -110,11 +110,6 @@ function GroupViewModel() {
 
             // Add firebase callback for messages stored and added
             var messagesRef = new Firebase(FirebaseChatRoomUrl + id + '/messages');
-
-            //var onlineRef = new Firebase(FirebaseChatRoomUrl + id + '/users/' + user + '/online');
-            //var userListRef = new Firebase(FirebaseChatRoomUrl + id + '/users');
-            //var lastOnlineRef = new Firebase(FirebaseChatRoomUrl + id + '/users/' + user + '/lastOnline');
-
             var onlineRef = new Firebase(FirebaseUsersUrl + id + '/' + user + '/online');
             var userListRef = new Firebase(FirebaseUsersUrl + id);
             var lastOnlineRef = new Firebase(FirebaseUsersUrl + id + '/' + user + '/lastOnline');
@@ -166,3 +161,9 @@ function GroupViewModel() {
 
 // Apply all KO bindings to Model
 ko.applyBindings(new GroupViewModel());
+
+function sendAlertMessage(type, message) {
+    $("#alert-area").append($("<div class='alert alert-" + type + " fade in' > " + message + " </div>"));
+    $(".alert").delay(4000).fadeOut("slow", function () { $(this).remove(); });
+}
+

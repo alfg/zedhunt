@@ -517,6 +517,9 @@ a:visited {
     max-height: 420px;
     overflow: auto;
 }
+#view-match-inner .tab-content {
+    position: relative;
+}
 
 /*
  * Footer */
@@ -531,4 +534,10 @@ footer li {
     display: inline;
     list-style: none;
     margin: auto 2px auto 6px;
+}
+
+/* Misc */
+#view-match-inner #alert-area {
+    position: absolute;
+    width: 100%;
 }

@@ -5,9 +5,7 @@
             <div class="tabbable tabs-below">
                 <div class="tab-content">
                     <h4 class="title">Group</h4>
-                    <div id="map-tab" class="tab-pane">
-                        <div id="map"></div><!-- Leaflet -->
-                    </div>
+                    <div id="alert-area"></div>
                     <div id="match-chat" class="tab-pane active" data-bind="with: selectedData">
                         <div id="match-chat-text">
                             <div id="messages"></div>
@@ -18,10 +16,13 @@
                             </form>
                         </div>
                     </div>
+                    <div id="map-tab" class="tab-pane">
+                        <div id="map" style="height: 100%; width: 100%;"></div><!-- Leaflet -->
+                    </div>
                 </div>
                 <ul class="nav nav-pills">
                     <li class="active"><a href="#match-chat" data-toggle="tab">Chat</a></li>
-                    <li><a href="#map-tab" data-toggle="tab">Map</a></li>
+                    <li><a href="#map-tab" data-toggle="tab" id="tab-hack">Map</a></li>
                 </ul>
             </div>
         </div>
@@ -36,7 +37,7 @@
 
                 <div id="url" class="input-prepend" data-bind="tooltip: { title: 'Share this page!', placement: 'left' }">
                     <span class="add-on"><i class="icon-link"></i></span>
-                    <input class="share-url span11" type="text" data-bind="attr: { value: 'http://zedhunt.com/#/find/' + id }">
+                    <input class="share-url span11" type="text" data-bind="attr: { value: 'http://portal.zedhunt.com/group/#/' + id }">
                 </div>
                 <div id="server" class="input-prepend" data-bind="tooltip: { title: 'Server Information', placement: 'left' }">
                     <span class="add-on"><i class="icon-tasks"></i></span>
@@ -73,4 +74,19 @@
 
 {{#yield-scripts}}
     <script src="/js/group.js" type="text/javascript"></script>
+    <script>
+        $(document).ready(function() {
+            var map = L.map('map').setView([1, 1], 2);
+            L.tileLayer('http://ghxst.com/maps/tiles/{z}/{x}_{y}.png', {
+                minZoom: 2,
+                maxZoom: 6,
+                zoom: 3
+            }).addTo(map);
+
+            //Tab hack to fix leaflet issue from loading in hidden div
+            $('body').on('shown', '#tab-hack', function() {
+                map.invalidateSize(false);
+            })
+        });
+    </script>
 {{/yield-scripts}}

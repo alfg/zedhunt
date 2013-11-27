@@ -17,6 +17,7 @@
 var express = require('express')
   , expressValidator = require('express-validator')
   , routes = require('./routes')
+  , config = require('./config')
   , user = require('./routes/user')
   , api = require('./routes/api')
   , controllers = require('./routes/controllers')
@@ -27,7 +28,7 @@ var express = require('express')
 var app = express();
 
 app.configure(function(){
-  app.set('port', process.env.PORT || 3000);
+  app.set('port', config.web.port || 3000);
   app.set('views', __dirname + '/views');
   app.set('view engine', 'html');
   app.set('layout', 'layout');
@@ -37,7 +38,7 @@ app.configure(function(){
   app.use(express.bodyParser());
   app.use(expressValidator());
   app.use(express.methodOverride());
-  app.use(express.cookieParser('your secret here'));
+  app.use(express.cookieParser(config.web.sessionkey));
   app.use(express.cookieSession());
   app.use(app.router);
   app.use(require('less-middleware')({ src: __dirname + '/public' }));

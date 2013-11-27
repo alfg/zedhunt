@@ -70,7 +70,7 @@ function HomeViewModel() {
     self.loadDetails = function(node) {
         /* When clicking a node, redirect to node's url by id */
 
-        location.hash = node.id;
+        location.href = "/find/#/" + node.id;
     };
     self.refreshGroups = function(event) {
         /* Refresh groups when 'Refresh' button is clicked */
@@ -88,8 +88,8 @@ function HomeViewModel() {
         /* Join match button on node */
 
         //alert(event.id);
-        location.href = '/group/#' + event.id;
-        self.selectedGroup("/group/#" + event.id);
+        location.href = '/group/#/' + event.id;
+        self.selectedGroup("/group/#/" + event.id);
     };
     self.leaveGroup = function(event) {
       /* Leave group button on match view */
@@ -110,7 +110,7 @@ function HomeViewModel() {
             });
 
         });
-        this.get('/find#:id', function() {
+        this.get('/find/#/:id', function() {
 
             // Switch to Find view and update dom
             self.selectedPage('find');
