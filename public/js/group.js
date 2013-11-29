@@ -69,19 +69,10 @@ function GroupViewModel() {
         clip.setText("asdfasdfasd");
         alert("Copied to clipboard");
     };
-    self.joinGroup = function(event) {
-        /* Join match button on node */
-
-        //alert(event.id);
-        location.hash = '#/group/' + event.id;
-        self.selectedGroup("#/group/" + event.id);
-    };
-    self.leaveGroup = function(event) {
+    self.leaveGroup = function() {
       /* Leave group button on match view */
 
-      room = $('#room').val();
-      location.hash = '#/find/';
-      self.selectedGroup(null);
+      location.href = '/find/';
     };
     self.sendMessage = function(formElement) {
         /* Sends chat messages in chatrooms */
@@ -108,12 +99,23 @@ function GroupViewModel() {
                 self.selectedData(data.group);
             });
 
+            // Firebase Auth
+            var dataRef = new Firebase(FirebaseUrl);
+            dataRef.auth(AUTH_TOKEN, function(error) {
+              if(error) {
+                console.log("login failed", error);
+              } else {
+                console.log("login success");
+              }
+            })
+
             // Add firebase callback for messages stored and added
             var messagesRef = new Firebase(FirebaseChatRoomUrl + id + '/messages');
             var onlineRef = new Firebase(FirebaseUsersUrl + id + '/' + user + '/online');
             var userListRef = new Firebase(FirebaseUsersUrl + id);
             var lastOnlineRef = new Firebase(FirebaseUsersUrl + id + '/' + user + '/lastOnline');
 
+            // Check if user is connected
             var connectedRef = new Firebase(FirebaseUrl + '/.info/connected');
 
             connectedRef.on('value', function(snap) {
@@ -166,4 +168,9 @@ function sendAlertMessage(type, message) {
     $("#alert-area").append($("<div class='alert alert-" + type + " fade in' > " + message + " </div>"));
     $(".alert").delay(4000).fadeOut("slow", function () { $(this).remove(); });
 }
+
+// Prompt user if leaving group
+window.onbeforeunload = function() {
+  return "You are leaving the group.";
+};
 

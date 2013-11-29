@@ -10,5 +10,7 @@ config.web.sessionkey = 'super secret';
 config.mongodb.host = 'mongodb://ghxst.local/zedhunt';
 config.redis.host = '127.0.0.1';
 config.redis.port = 6379;
+config.firebase.url = 'https://zombies.firebaseio.com';
+config.firebase.token = '9L8XCx4BMmLQje11ILlINfOxrbQGD4XWQzjtYjeT';
 
 module.exports = config;

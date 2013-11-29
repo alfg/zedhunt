@@ -10,6 +10,37 @@
         </ul>
     </nav>
     -->
+    <label for="filter-toggle"><i class="icon-plus-sign" data-bind="css: { 'icon-minus-sign' : openFilterBox } "></i> Filters</label>
+    <input id="filter-toggle" type="checkbox" data-bind="checked: openFilterBox" style="display: none;" />
+    <div class="well well-small filter-box span8" data-bind="visible: openFilterBox">
+        <div class="row">
+            <div class="span2">
+                <h4>Game</h4>
+                <ul>
+                    <li><label><input type="checkbox" name="game" value="any" /> Any</label></li>
+                    <li><label><input type="checkbox" name="game" value="dayzmod" /> DayZ Mod</label></li>
+                </ul>
+            </div>
+            <div class="span2">
+                <h4>Experience</h4>
+                <ul>
+                    <li><label><input type="checkbox" name="experience" value="any" /> Any</label></li>
+                    <li><label><input type="checkbox" name="experience" value="noob" /> Noob</label></li>
+                    <li><label><input type="checkbox" name="experience" value="intermediate" /> Intermediate</label></li>
+                    <li><label><input type="checkbox" name="experience" value="expert" /> Expert</label></li>
+                </ul>
+            </div>
+            <div class="span2">
+                <h4>Play Style</h4>
+                <ul>
+                    <li><label><input type="checkbox" name="playstyle" value="any" /> Any</label></li>
+                    <li><label><input type="checkbox" name="playstyle" value="survivor" /> Survivor</label></li>
+                    <li><label><input type="checkbox" name="playstyle" value="bandit" /> Bandit</label></li>
+                </ul>
+            </div>
+        </div>
+        <button class="btn btn-small pull-right" data-bind="click: updateFilters"><i class="icon-filter"></i> Update</button>
+    </div>
     <button class="btn btn-small pull-right" data-bind="click: refreshGroups"><i class="icon-refresh"></i> Refresh</button>
     <span class="clearfix"></span>
   </div>

@@ -358,6 +358,21 @@ a:visited {
     margin: 16px 12px 0px 6px;
 }
 
+.filter-box {
+    background: #4D4D4D;
+    border: 1px solid #494949;
+    margin-left: 0;
+}
+.filter-box h4 {
+    font-size: 14px;
+}
+.filter-box ul {
+    list-style: none;
+}
+.filter-box ul label {
+    font-size: 11px;
+}
+
 /*
  * Find > Info/Details Box on right column */
 #infobox {

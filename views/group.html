@@ -73,6 +73,9 @@
 </div>
 
 {{#yield-scripts}}
+    <script>
+        var AUTH_TOKEN = '{{ token }}';
+    </script>
     <script src="/js/group.js" type="text/javascript"></script>
     <script>
         $(document).ready(function() {

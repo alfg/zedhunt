@@ -7,8 +7,28 @@ var db = require('../db.js');
 var moment = require('moment');
 
 exports.groups = function(req, res){
+
+  /*
+  var filters = {};
+
+  if (req.query.game)
+    filters.game = req.query.game;
+
+  if (req.query.experience)
+    filters.experience = req.query.experience;
+
+  if (req.query.playstyle)
+    filters.playstyle = req.query.playstyle;
+
+  console.log(filters);
+  */
+
+  console.log(req.body);
+
+  filterList = [ { experience: 'any' }, { experience: 'Any'}];
+
   // Query all groups in MongoDB
-  db.Match.find({}).limit(50).sort('-date').exec(function(err, groups) {
+  db.Match.find({$or : filterList}).limit(50).sort('-date').exec(function(err, groups) {
       // Set empty json object
       var json = [];
 

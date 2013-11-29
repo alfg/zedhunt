@@ -57,13 +57,14 @@ app.configure('development', function(){
 });
 
 app.get('/', locals, routes.checkAuth, routes.index);
-app.get('/find', locals, routes.checkAuth, routes.find);
+app.get('/find/', locals, routes.checkAuth, routes.find);
 app.get('/create', locals, routes.checkAuth, routes.create);
 app.get('/group', locals, routes.checkAuth, routes.group);
 app.get('/profile', locals, routes.checkAuth, routes.profile);
 
 app.get('/users', user.list);
 app.get('/api/groups', api.groups);
+app.post('/api/groups', api.groups);
 app.get('/api/group/:groupid', api.group);
 app.get('/api/profile/:username', api.profile);
 app.get('/api/stats', usersOnline.trackUsers, usersOnline.usersOnline, api.stats);

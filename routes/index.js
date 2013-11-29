@@ -3,7 +3,10 @@
  * GET home page.
  */
 
-var db = require('../db.js')
+var config = require('../config');
+var db = require('../db.js');
+var FirebaseTokenGenerator = require("firebase-token-generator");
+var tokenGenerator = new FirebaseTokenGenerator(config.firebase.token);
 
 exports.checkAuth = function(req, res, next) {
   if (!req.session.username) {
@@ -14,7 +17,7 @@ exports.checkAuth = function(req, res, next) {
 }
 
 exports.index = function(req, res){
-  res.redirect('/find');
+  res.redirect('/find/');
 };
 
 exports.find = function(req, res){
@@ -25,7 +28,9 @@ exports.create = function(req, res){
 };
 
 exports.group = function(req, res){
-  res.render('group', { title: 'Zedhunt Portal' });
+  var token = tokenGenerator.createToken({user: req.session.username})
+  console.log(req.session.username);
+  res.render('group', { title: 'Zedhunt Portal', token: token });
 };
 
 exports.profile = function(req, res){

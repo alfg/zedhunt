@@ -38,6 +38,7 @@ function HomeViewModel() {
     self.gamersOnline = ko.observable();
     self.usersInRoomCount = ko.observable();
     self.usersInRoom = ko.observableArray();
+    self.openFilterBox = ko.observable();
 
     // Behaviours/Functions
     self.gamersOnline = ko.computed(function() {
@@ -98,10 +99,13 @@ function HomeViewModel() {
       location.hash = '#/find/';
       self.selectedGroup(null);
     };
+    self.updateFilters = function() {
+      alert('ok');
+    }
 
     // Client-side routes and SPA views
     Sammy(function() {
-        this.get('find', function() {
+        this.get('/find/', function() {
             self.selectedPage('find');
             self.selectedHeaderLink('find');
             $.get("/api/groups/", self.findData);
