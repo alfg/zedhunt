@@ -362,6 +362,8 @@ a:visited {
     background: #4D4D4D;
     border: 1px solid #494949;
     margin-left: 0;
+    margin-bottom: 10px;
+    padding: 4px 5px 0 10px;
 }
 .filter-box h4 {
     font-size: 14px;
@@ -371,6 +373,10 @@ a:visited {
 }
 .filter-box ul label {
     font-size: 11px;
+}
+.filter-box .inner {
+    padding-bottom: 10px;
+    padding-right: 10px;
 }
 
 /*

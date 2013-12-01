@@ -100,7 +100,36 @@ function HomeViewModel() {
       self.selectedGroup(null);
     };
     self.updateFilters = function() {
-      alert('ok');
+      /* Update findData with filters */
+
+      var gameAny = $('#game-any').is(':checked');
+      var gameDayZMod = $('#game-dayzmod').is(':checked');
+
+      var expAny = $('#exp-any').is(':checked');
+      var expNoob = $('#exp-noob').is(':checked');
+      var expIntermediate = $('#exp-intermediate').is(':checked');
+      var expExpert = $('#exp-expert').is(':checked');
+
+      var playAny = $('#play-any').is(':checked');
+      var playSurvivor = $('#play-survivor').is(':checked');
+      var playBandit = $('#play-bandit').is(':checked');
+
+      var filterData = {
+        gameAny: gameAny,
+        gameDayzMod: gameDayZMod,
+        expAny: expAny,
+        expNoob: expNoob,
+        expIntermediate: expIntermediate,
+        expExpert: expExpert,
+        playAny: playAny,
+        playSurvivor: playSurvivor,
+        playBandit: playBandit
+      };
+
+      $.post("/api/groups/", filterData)
+        .done(function (data) {
+          self.findData(data);
+        });
     }
 
     // Client-side routes and SPA views

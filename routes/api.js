@@ -8,27 +8,18 @@ var moment = require('moment');
 
 exports.groups = function(req, res){
 
-  /*
-  var filters = {};
-
-  if (req.query.game)
-    filters.game = req.query.game;
-
-  if (req.query.experience)
-    filters.experience = req.query.experience;
-
-  if (req.query.playstyle)
-    filters.playstyle = req.query.playstyle;
-
-  console.log(filters);
-  */
-
-  console.log(req.body);
-
-  filterList = [ { experience: 'any' }, { experience: 'Any'}];
+  if (req.method === "POST") {
+    // If POST, then build up the filters query
+    var filters = buildFiltersQuery(req.body);
+  }
+  else
+  {
+    // Else just leave an empty list of an empty object
+    var filters = [{}];
+  }
 
   // Query all groups in MongoDB
-  db.Match.find({$or : filterList}).limit(50).sort('-date').exec(function(err, groups) {
+  db.Match.find({$or : filters}).limit(50).sort('-date').exec(function(err, groups) {
       // Set empty json object
       var json = [];
 
@@ -137,6 +128,8 @@ exports.stats = function(req, res){
   res.json(stats);
 };
 
+/* Misc functions */
+
 function formatGame(game) {
   var title;
   switch (game) {
@@ -148,6 +141,44 @@ function formatGame(game) {
       break;
   }
   return title;
-
 }
 
+/* Takes req.body data and outputs a list of objects used for querying mongoose */
+function buildFiltersQuery(postData) {
+  var filters = [];
+
+  var p = postData;
+  for (var key in p) {
+    if (p.hasOwnProperty(key)) {
+      // Game Filters
+      if (key === "gameAny" && p[key] === "true")
+        filters.push({ game: "any" });
+      if (key === "gameDayzMod" && p[key] === "true")
+        filters.push({ game: "dayzmod" });
+      if (key === "expAny" && p[key] === "true")
+        filters.push({ experience: "any" });
+
+      // Experience Filters
+      if (key === "expNoob" && p[key] === "true")
+        filters.push({ experience: "noob" });
+      if (key === "expIntermediate" && p[key] === "true")
+        filters.push({ experience: "intermediate" });
+      if (key === "expExpert" && p[key] === "true")
+        filters.push({ experience: "expert" });
+
+      // Playstyle Filters
+      if (key === "playAny" && p[key] === "true")
+        filters.push({ playstyle: "any" });
+      if (key === "playSurvivor" && p[key] === "true")
+        filters.push({ playstyle: "survivor" });
+      if (key === "playBandit" && p[key] === "true")
+        filters.push({ playstyle: "bandit" });
+    }
+  }
+
+  // If filters array is empty, then add an empty object literal
+  if (!filters.length > 0)
+    filters.push({});
+
+  return filters;
+}
