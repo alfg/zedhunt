@@ -1,5 +1,5 @@
 <!-- Find Games Content -->
-<div id="find-games" data-bind="visible: selectedPage() == 'find' ">
+<div id="find-games">
   <div class="content container-fluid">
     <div class="row-fluid">
         <div id="left-column" class="span12" data-bind="css: { span8: selectedData}">
@@ -83,7 +83,7 @@
 
                 <div id="url" class="input-prepend">
                   <span class="add-on"><i class="icon-link"></i></span>
-                  <input class="span11 share-url" type="text" data-bind="attr: { value: 'http://portal.zedhunt.com/find/#/' + id }">
+                  <input id="copy-url" class="span11 share-url" type="text" data-bind="attr: { value: 'http://portal.zedhunt.com/find/#/' + id }, click: $root.copyURL">
                 </div>
 
                 <table class="table">

@@ -10,7 +10,7 @@
                         <div id="match-chat-text">
                             <div id="messages"></div>
                             <form data-bind="submit: $root.sendMessage" method="POST">
-                                <input id="chat-message" class="input-block-level" type="text" placeholder="M'ask you somethin'..." />
+                                <input id="chat-message" class="input-block-level" type="text" placeholder="M'ask you somethin'..." autocomplete="off" />
                                 <input id="room" type="hidden" data-bind="value: id" />
                                 <button id="send-button" class="btn pull-right">Send</button>
                             </form>
@@ -28,7 +28,7 @@
         </div>
         <div id="right-column" class="span4" data-bind="css: {fadeIn: selectedData}" style="opacity: 0;">
             <div id="infobox" data-bind="with: selectedData">
-                <h4><span class="desc-type" data-bind="text: details.requirements.playstyle"></span><span data-bind="text: title"></span></h4>
+                <h4><span class="desc-type" data-bind="text: game"></span><span data-bind="text: title"></span></h4>
                 <h6 data-bind="text: 'Created by&nbsp;' + creator + '&nbsp;' + date"></h6>
 
                 <button class="btn btn-small btn-danger" data-bind="click: $root.leaveGroup">Leave Group</button>
@@ -37,7 +37,7 @@
 
                 <div id="url" class="input-prepend" data-bind="tooltip: { title: 'Share this page!', placement: 'left' }">
                     <span class="add-on"><i class="icon-link"></i></span>
-                    <input class="share-url span11" type="text" data-bind="attr: { value: 'http://portal.zedhunt.com/group/#/' + id }">
+                    <input id="copy-url" class="share-url span11" type="text" data-bind="attr: { value: 'http://portal.zedhunt.com/group/#/' + id }, click: $root.copyURL">
                 </div>
                 <div id="server" class="input-prepend" data-bind="tooltip: { title: 'Server Information', placement: 'left' }">
                     <span class="add-on"><i class="icon-tasks"></i></span>

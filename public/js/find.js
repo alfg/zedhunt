@@ -55,18 +55,8 @@ function HomeViewModel() {
         });
         return userCount;
     });
-  /*
-    self.usersInRoomCount = function(data) {
-      var usersInRoom = new Firebase(FirebaseChatRoomUrl + data.id + '/users/');
-      usersInRoom.on("value", function(snapshot) {
-        var count = snapshot.numChildren();
-        console.log(count);
-      });
-      return 'test';
-    };
-    */
     self.usersInRoomCount = function(node) {
-      return Object.size(loadedUsers[node.id]);;
+      return Object.size(loadedUsers[node.id]);
     }
     self.loadDetails = function(node) {
         /* When clicking a node, redirect to node's url by id */
@@ -82,8 +72,7 @@ function HomeViewModel() {
     self.copyURL = function(event) {
         /* Copy URL to clipboard when link input text is clicked */
 
-        clip.setText("asdfasdfasd");
-        alert("Copied to clipboard");
+        $('#copy-url').select();
     };
     self.joinGroup = function(event) {
         /* Join match button on node */
@@ -135,8 +124,6 @@ function HomeViewModel() {
     // Client-side routes and SPA views
     Sammy(function() {
         this.get('/find/', function() {
-            self.selectedPage('find');
-            self.selectedHeaderLink('find');
             $.get("/api/groups/", self.findData);
             $.get(FirebaseUsersUrl + ".json", function(users) {
               loadedUsers = users;

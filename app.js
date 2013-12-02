@@ -18,6 +18,7 @@ var express = require('express')
   , expressValidator = require('express-validator')
   , routes = require('./routes')
   , config = require('./config')
+  , pjson = require('./package.json')
   , user = require('./routes/user')
   , api = require('./routes/api')
   , controllers = require('./routes/controllers')
@@ -48,9 +49,15 @@ app.configure(function(){
 
 locals = function(req, res, next) {
   res.locals.session = req.session;
+  res.locals.development = app.settings.env === 'development';
   console.log(req.session);
   next();
 };
+
+app.locals({
+  development: app.settings.env,
+  version: pjson.version
+});
 
 app.configure('development', function(){
   app.use(express.errorHandler());
@@ -77,5 +84,5 @@ app.post('/group/create', controllers.createGroup);
 app.post('/register', controllers.register);
 
 http.createServer(app).listen(app.get('port'), function(){
-  console.log("Express server listening on port " + app.get('port'));
+  console.log("Express server listening on port " + app.get('port') + " in " + app.settings.env + " mode.");
 });

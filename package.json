@@ -15,6 +15,11 @@
     "redis": "*",
     "express.io": "*",
     "hogan-express": "*",
-    "socket.io": "*"
+    "express-validator": "*",
+    "firebase-token-generator": "*"
+  },
+  "devDependencies": {
+    "grunt": "*",
+    "grunt-contrib-uglify": "*"
   }
 }

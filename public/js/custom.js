@@ -1,5 +1,6 @@
 $(document).ready(function() {
   $('#create-match-form').validate();
+
 });
 
 Object.size = function(obj) {
@@ -9,3 +10,9 @@ Object.size = function(obj) {
     }
     return size;
 };
+$("#copy-url").focus(function() {
+  $(this).select();
+});
+$("#copy-url").mouseup(function() {
+  e.preventDefault();
+});

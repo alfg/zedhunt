@@ -64,10 +64,9 @@ function GroupViewModel() {
         location.hash = '#/find/' + node.id;
     };
     self.copyURL = function(event) {
-        /* Copy URL to clipboard when link input text is clicked */
+      /* Copy URL to clipboard when link input text is clicked */
 
-        clip.setText("asdfasdfasd");
-        alert("Copied to clipboard");
+      $('#copy-url').select();
     };
     self.leaveGroup = function() {
       /* Leave group button on match view */

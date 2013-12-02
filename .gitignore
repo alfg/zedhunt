@@ -9,6 +9,7 @@ lib-cov
 *.tmp
 *.swp
 *.swo
+compressed.min.js
 .idea
 public/img/maps/
 

@@ -11,7 +11,7 @@ var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function callback() {
     //connected
-    console.log("connected to mongo");
+    console.log("connected to " + config.mongodb.host);
 });
 
 
