@@ -2,6 +2,8 @@
 var redis = require('redis')
 , r = redis.createClient();
 
+console.log("Connected to Redis Server: " + r.host + ":" + r.port);
+
 // Middlewares
 exports.trackUsers = function(req, res, next){
   var ua = req.headers['user-agent'];
