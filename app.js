@@ -42,7 +42,7 @@ app.configure(function(){
   app.use(express.cookieParser(config.web.sessionkey));
   app.use(express.cookieSession());
   app.use(app.router);
-  app.use(require('less-middleware')({ src: __dirname + '/public' }));
+  app.use(require('less-middleware')(path.join(__dirname, 'public')));
   app.use(express.static(path.join(__dirname, 'public')));
   app.use(routes.checkAuth);
 });
