@@ -111,7 +111,7 @@ function CreateViewModel() {
               }
               else
               {
-                window.location = '/group/#' + msg;
+                window.location = '/group/#/' + msg;
               }
             });
 

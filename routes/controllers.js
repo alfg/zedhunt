@@ -20,7 +20,6 @@ exports.createGroup = function(req, res){
   var voipPassword = req.param('voipPassword');
   var groupPassword = req.param('groupPassword');
   var creator = req.param('creator');
-  console.log(req.username);
 
   var now = new Date();
   var m = new db.Match({
@@ -85,7 +84,7 @@ exports.login = function(req, res){
 
 exports.logout = function(req, res){
   req.session = null;
-  res.redirect('/login');
+  res.redirect('/');
 }
 
 exports.register = function(req, res){

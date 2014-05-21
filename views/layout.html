@@ -50,22 +50,15 @@
 
         <div id="profile-links" class="pull-right">
             {{^session.username}}
-            <div class="form-inline">
-            <form data-bind="submit: loginUser">
-              <input type="text" class="input-small" placeholder="Username" data-bind="value: loginUsername">
-              <input type="password" class="input-small" placeholder="Password" data-bind="value: loginPassword">
-              <button type="submit" class="btn btn-small btn-success">Login</button>
-              <button href="#register-modal" class="btn btn-small btn-primary" role="button" data-toggle="modal">Register</button>
-            </form>
-            <span class="text-error" data-bind="text: loginMessage"></span>
-            </div>
+          <div class="form-inline">
+              <a href="/login" class="btn btn-small btn-success">Login</a>
+              <a href="/register" class="btn btn-small btn-primary">Register</a>
+          </div>
             {{/session.username}}
             
             {{#session.username}}
             <ul>
-                <li>Logged in as&nbsp;<strong>{{session.username}}</strong></li>
-                <!-- <li><a data-bind="css: { selected: selectedHeaderLink() == 'profile' }" href="/profile/#/{{session.username}}">Profile</a></li> -->
-                <!-- <li><a data-bind="css: { selected: selectedHeaderLink() == 'mygames' }" href="#/profile/{{session.username}}/mygames">My Games</a></li> -->
+                <li>Logged in as <strong>{{session.username}}</strong></li>
                 <li><a href="/logout">Logout</a></li>
             </ul> 
             {{/session.username}}

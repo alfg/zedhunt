@@ -197,6 +197,9 @@ a:visited {
 #profile-links form {
     margin: 0;
 }
+#profile-links .form-inline a {
+    color: #f2f2f2;
+}
 
 /*
  * Content Wrappers */

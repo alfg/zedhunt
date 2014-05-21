@@ -63,8 +63,8 @@ app.configure('development', function(){
   app.use(express.errorHandler());
 });
 
-app.get('/', locals, routes.checkAuth, routes.index);
-app.get('/find/', locals, routes.checkAuth, routes.find);
+app.get('/', locals, routes.index);
+app.get('/find/', locals, routes.find);
 app.get('/create', locals, routes.checkAuth, routes.create);
 app.get('/group', locals, routes.checkAuth, routes.group);
 app.get('/profile', locals, routes.checkAuth, routes.profile);
