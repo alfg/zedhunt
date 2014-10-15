@@ -28,7 +28,7 @@ exports.create = function(req, res){
 };
 
 exports.group = function(req, res){
-  var token = tokenGenerator.createToken({user: req.session.username})
+  var token = tokenGenerator.createToken({uid: req.session.username, user: req.session.username})
   console.log(req.session.username);
   res.render('group', { title: 'Zedhunt Portal', token: token });
 };
